@@ -1,0 +1,37 @@
+{% load core_extras editor_extras %}
+<div class="btn-group">
+    {% define_if from_toc 'dark rounded-end' 'secondary rounded-0' as btn_color %}
+    {% include 'editor/helpers/buttons/dropdown_toggle.html' with auto_close='true' icon='three-dots' icon_color='' perm=True text='' text_css='' title='Manage Segment' %}
+    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-lg">
+        {% if not from_toc and bonds|length > 1 %}
+            <li><h6 class="dropdown-header">Manage Block(s)</h6></li>
+            <li>
+                {% url 'editor:bond:arrange' master_bond.master_syllabus.id master_bond.segment.id as url %}
+                {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=False icon='arrows-move' icon_color='' next=False text='Arrange' title='Arrange Blocks' %}
+            </li>
+            <li>
+                {% url 'editor:block:update_batch' master_syllabus.id segment.id as url %}
+                {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=True icon='pencil-square' icon_color='' next=False text='Batch Edit' title='Batch Edit' %}
+            </li>
+            <li><hr class="dropdown-divider"></li>
+        {% endif %}
+        <li><h6 class="dropdown-header">Manage Segment</h6></li>
+        <li>
+            {% url 'editor:mastersyllabus:segment:update' master_bond.master_syllabus.id master_bond.segment.id as url %}
+            {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=False icon='pencil' icon_color='' next=False text='Edit' title='Edit Segment' %}
+        </li>
+        <li>
+            {% url 'editor:masterbond:sections' master_bond.master_syllabus.id master_bond.id as url %}
+            {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=False icon='person-workspace' icon_color='' next=False text='Manage Section(s)' title='Manage Segment Section(s)' %}
+        </li>
+        <li>
+            {% url 'editor:masterbond:delete' master_bond.master_syllabus.id master_bond.id as url %}
+            {% include 'editor/helpers/buttons/dropdown.html' with control='modal' full=False icon='x-lg' icon_color='' next=False text='Remove' title='Remove Segment' %}
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+            {% url 'editor:mastersyllabus:segment:delete' master_bond.master_syllabus.id master_bond.segment.id as url %}
+            {% include 'editor/helpers/buttons/dropdown.html' with control='modal' full=False icon='trash3' icon_color='danger' next=False text='Delete (Forever)' title='Delete Segment (Forever)' %}
+        </li>
+    </ul>
+</div>

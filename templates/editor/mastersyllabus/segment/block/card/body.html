@@ -1,0 +1,13 @@
+{% load core_extras %}
+{% if model == 'contentblock' %}
+    {% include 'editor/mastersyllabus/segment/block/card/body/content.html' %}
+{% else %}
+    {% has_attr bond.block.printableblock 'scheduleblock' as is_schedule_block %}
+    {% if is_schedule_block %}
+        <div id="schedule-{{ bond.block.printableblock.scheduleblock.schedule.id }}">
+            {% include 'viewer/helpers/block.html' with master_syllabus=master_syllabus render_mode='edit' %}
+        </div>
+    {% else %}
+        {% include 'viewer/helpers/block.html' with master_syllabus=master_syllabus render_mode='edit' %}
+    {% endif %}
+{% endif %}

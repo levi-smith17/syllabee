@@ -1,0 +1,11 @@
+{% load core_extras editor_extras json_loaders %}
+<div class="btn-group">
+    {% if bond.block|is_printable_block %}
+        {% if bond.block.printableblock.published and render_mode == 'view' %}
+            {% get_json_content 'block' '{"instructor": "'|addstr:master_syllabus.owner.username|addstr:'", "permalink": "'|addstr:bond.block.printableblock.permalink|addstr:'"}' as json_content %}
+            {% get_json_toc 'block' '{"instructor": "'|addstr:master_syllabus.owner.username|addstr:'", "permalink": "'|addstr:bond.block.printableblock.permalink|addstr:'"}' as json_toc %}
+            {% url 'viewer:block:index' master_syllabus.owner.username bond.block.printableblock.permalink as json_url %}
+            {% include 'core/buttons/load_regions.html' with btn_color='dark btn-darker border-0 p-2' icon='binoculars' icon_color='' json_stage=False json_profile=False json_title=bond.block.name perms=True post_icon=False text='' text_css='' title='Preview Block' size='1.5rem' %}
+        {% endif %}
+    {% endif %}
+</div>

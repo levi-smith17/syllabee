@@ -1,0 +1,56 @@
+{% load core_extras editor_extras %}
+<div class="btn-group">
+    {% include 'editor/helpers/buttons/dropdown_toggle.html' with auto_close='true' btn_color='secondary' icon='plus-lg' icon_color='' perm=True text='' text_css='' title='Add Block' %}
+    <div class="dropdown-menu dropdown-menu-dark shadow-lg">
+        <div{% if master_syllabus.interactive_view %} class="d-md-flex"{% endif %}>
+            <ul class="list-unstyled">
+                <li><h6 class="dropdown-header">Add Static Block</h6></li>
+                <li>
+                    {% url 'editor:block:content:create' master_bond.master_syllabus.id master_bond.segment.id as url %}
+                    {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=True icon='card-text' icon_color='' next=False text='Content' title='Add Content' %}
+                </li>
+                <li>
+                    {% url 'editor:block:details:create' master_bond.master_syllabus.id master_bond.segment.id as url %}
+                    {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=True icon='caret-right-fill' icon_color='' next=False text='Details' title='Add Details' %}
+                </li>
+                <li>
+                    {% url 'editor:block:table:create' master_bond.master_syllabus.id master_bond.segment.id as url %}
+                    {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=True icon='table' icon_color='' next=False text='Table' title='Add Table' %}
+                </li>
+                <li><hr class="dropdown-divider bg-dark"></li>
+                <li><h6 class="dropdown-header">Add Dynamic Block</h6></li>
+                <li>
+                    {% url 'editor:block:grade_determination:create' master_bond.master_syllabus.id master_bond.segment.id as url %}
+                    {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=False icon='journal-check' icon_color='' next=False text='Grade Determination' title='Add Grade Determination' %}
+                </li>
+                <li>
+                    {% url 'editor:block:schedule:create' master_bond.master_syllabus.id master_bond.segment.id as url %}
+                    {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=True icon='calendar-week' icon_color='' next=False text='Schedule' title='Add Schedule' %}
+                </li>
+                <li><hr class="dropdown-divider d-md-none bg-dark"></li>
+            </ul>
+            {% if master_syllabus.interactive_view %}<div class="vr d-none d-md-block bg-dark opacity-100"></div>{% endif %}
+            <ul class="list-unstyled">
+                {% if master_syllabus.interactive_view %}
+                    <li><h6 class="dropdown-header">Add Interactive Block</h6></li>
+                    <li>
+                        {% url 'editor:block:video:create' master_bond.master_syllabus.id master_bond.segment.id as url %}
+                        {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=False icon='camera-video' icon_color='' next=False text='Video' title='Add Video' %}
+                    </li>
+                    <li><hr class="dropdown-divider bg-dark"></li>
+                    <li><h6 class="dropdown-header">Add Response Block</h6></li>
+                    <li>
+                        {% url 'editor:block:response:create' master_bond.master_syllabus.id master_bond.segment.id as url %}
+                        {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=True icon='question' icon_color='' next=False text='Question Pool' title='Add Question Pool' %}
+                    </li>
+                {% endif %}
+                <li><hr class="dropdown-divider bg-dark"></li>
+                <li><h6 class="dropdown-header">From Content Library</h6></li>
+                <li>
+                    {% url 'editor:bond:create' master_bond.master_syllabus.id master_bond.segment.id as url %}
+                    {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=True icon='copy' icon_color='' next=False text='Copy Content' title='Copy Content' %}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

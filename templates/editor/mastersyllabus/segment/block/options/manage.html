@@ -1,0 +1,28 @@
+{% load core_extras editor_extras %}
+<div class="btn-group flex-column m-0 dropend">
+    {% with edit_url='editor:block:'|add:bond.block.type|add:':update' %}
+        {% url edit_url master_syllabus.id bond.segment.id bond.block.id as url %}
+        {% include 'editor/helpers/buttons/offcanvas_modal.html' with btn_color='dark btn-darker border-0 p-2' control='offcanvas' full=bond.block|is_offcanvas_expanded_editable icon='pencil' icon_color='' next=False perm=True text='' text_css='' title='Edit '|addstr:bond.block.type|title|addstr:' Block' %}
+    {% endwith %}
+    {% include 'editor/helpers/buttons/dropdown_toggle.html' with auto_close='true' btn_color='dark btn-darker border-0 m-0 p-2' icon='three-dots' icon_color='' perm=True text='' text_css='' title='Manage Block' %}
+    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-lg">
+        <li><h6 class="dropdown-header">Manage Block</h6></li>
+        {% if bond.block|is_printable_block %}
+            <li>
+                {% define_if bond.block.printableblock.published 'cloud-check' 'cloud' as icon %}
+                {% define_if bond.block.printableblock.published 'Revoke' 'Publish' as text %}
+                {% url 'editor:block:publish' master_syllabus.id bond.segment.id bond.block.id as url %}
+                {% include 'editor/helpers/buttons/dropdown.html' with control='modal' full=False icon_color='' next=False title=text|add:' Block' %}
+            </li>
+        {% endif %}
+        <li>
+            {% url 'editor:bond:delete' master_syllabus.id bond.segment.id bond.id as url %}
+            {% include 'editor/helpers/buttons/dropdown.html' with control='modal' full=False icon='x-lg' icon_color='' next=False perm=True text='Remove' title='Remove Block' %}
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+            {% url 'editor:block:delete' master_syllabus.id bond.segment.id bond.block.id as url %}
+            {% include 'editor/helpers/buttons/dropdown.html' with control='modal' full=False icon='trash3' icon_color='danger' next=False text='Delete (Forever)' title='Delete Block (Forever)' %}
+        </li>
+    </ul>
+</div>

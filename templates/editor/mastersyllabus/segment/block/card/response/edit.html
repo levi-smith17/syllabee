@@ -1,0 +1,14 @@
+{% load core_extras editor_extras %}
+<div class="offcanvas-body p-0">
+    <form id="offcanvas-form" action="{{ edit_url }}" method="post" enctype="multipart/form-data" autocomplete="off"
+          class="editor-form was-validated" data-model="{{ verbose_name }}" data-operation="updated"
+          data-target="{{ target }}" data-callback="{{ callback }}">
+        {% csrf_token %}
+        <div class="p-3">
+            {% if model == 'multiplechoicequestion' %}
+                {% include 'editor/mastersyllabus/segment/block/card/response/multiple_choice_question.html' %}
+            {% endif %}
+        </div>
+    </form>
+</div>
+

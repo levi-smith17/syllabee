@@ -1,0 +1,10 @@
+<form action="{% url 'editor:masterbond:visibility' master_bond.master_syllabus.id master_bond.id %}"
+      method="post" class="d-flex flex-fill editor-form ms-auto" data-model="segment"
+      data-operation="visibility updated" data-target="#toc-container" data-callback="done_generic">
+    {% csrf_token %}
+    <input type="hidden" name="visibility" value="{{ visibility }}">
+    <button type="submit" class="dropdown-item d-flex align-items-center py-2"
+            title="{{ text }} Segment">
+        {% include 'core/buttons/content.html' with text_css='ps-3' size='1.5rem' %}
+    </button>
+</form>

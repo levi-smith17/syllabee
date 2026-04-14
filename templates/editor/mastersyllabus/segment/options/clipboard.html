@@ -1,0 +1,10 @@
+<input type="text" class="d-none" value="https://{{ request.META.HTTP_HOST }}{{ url }}"
+       id="clipboard-syllabus-url-{{ master_bond_section.id }}-{{ from_toc }}">
+<label for="clipboard-syllabus-url-{{ master_bond_section.id }}-{{ from_toc }}" class="d-none">Copy URL</label>
+<button type="button" id="clipboard-tooltip-{{ master_bond_section.id }}-{{ from_toc }} from_toc %}" title="Copy URL"
+        class="clipboard btn btn-dark dropdown-item d-flex align-items-center py-2 rounded-0"
+        data-id="clipboard-syllabus-url-{{ master_bond_section.id }}-{{ from_toc }}" data-bs-toggle="tooltip"
+        data-bs-title="Copy URL">
+    {% include 'core/buttons/content.html' with icon_color='' size='1.5rem' text=master_bond_section.section text_css='px-3' %}
+    <span class="d-flex align-items-center">{% include 'core/helpers/icon.html' with icon='clipboard' size='1.5rem' %}</span>
+</button>

@@ -1,0 +1,45 @@
+{% load django_bootstrap5 core_extras editor_extras %}
+{{ formset.management_form }}
+<div class="d-grid gap-2 m-0">
+    {% define ' rounded-0 rounded-bottom' as field_class_help %}
+    <div class="input-group d-flex flex-column">
+        {% include 'core/offcanvas/field_help.html' with field=form.text.field %}
+        {{ form.text }}
+    </div>
+    <div class="d-grid gap-0 border border-secondary rounded">
+        <div class="p-3 text-bg-secondary">
+            <span class="text-danger pe-1">{% include 'core/helpers/icon.html' with icon='asterisk' size='1rem' %}</span>
+            Responses
+        </div>
+        <div class="d-grid gap-3 p-3">
+            {% for inline_form in formset %}
+                {{ inline_form.id }}
+                {% response_letter 'A' forloop.counter0 as response_letter %}
+                <div class="form-row d-flex">
+                    <input type="hidden" name="{{ inline_form.identifier.html_name }}" value="{{ response_letter }}">
+                    <div class="form-floating">
+                                    <textarea id="{{ inline_form.response.auto_id }}" class="form-control text-bg-dark"
+                                              name="{{ inline_form.response.html_name }}" rows="2" cols="40" required
+                                              placeholder="{{ inline_form.response.label|add:' '|add:response_letter }}"
+                                    >{% if inline_form.response.value %}{{ inline_form.response.value }}{% endif %}</textarea>
+                        <label for="{{ inline_form.response.auto_id }}">{{ inline_form.response.label|add:' '|add:response_letter }}</label>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="input-group d-flex flex-column">
+        {% include 'core/offcanvas/field_help.html' with field=form.correct_response.field %}
+        {% bootstrap_field form.correct_response layout='floating' field_class='text-bg-dark'|add:field_class_help wrapper_class='m-0' show_help=False %}
+    </div>
+    <div class="input-group d-flex flex-column">
+        {% include 'core/offcanvas/field_help.html' with field=form.max_attempts.field %}
+        {% bootstrap_field form.max_attempts layout='floating' field_class='text-bg-dark'|add:field_class_help wrapper_class='m-0' show_help=False %}
+    </div>
+    <div class="input-group d-flex flex-column">
+        {% include 'core/offcanvas/field_help.html' with field=form.max_points.field %}
+        {% bootstrap_field form.max_points layout='floating' field_class='text-bg-dark'|add:field_class_help wrapper_class='m-0' show_help=False %}
+    </div>
+    <hr class="my-2 text-bg-dark">
+    {% include 'core/buttons/form/submit.html' with color='warning' icon='plus-lg' perm=True text='Save' title='' %}
+</div>

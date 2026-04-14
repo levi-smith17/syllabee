@@ -1,0 +1,25 @@
+{% load core_extras editor_extras %}
+<div class="offcanvas-body h-100 p-0">
+    <form action="{% url 'editor:block:update_batch_submit' master_syllabus_id segment_id %}" method="post"
+          class="editor-form row row-cols-1 row-cols-md-2 h-100 m-0 p-0 flex-md-row-reverse overflow-y-auto overflow-y-md-hidden"
+          autocomplete="off" data-model="segment" data-operation="updated"
+          data-target="{{ target }}" data-callback="{{ callback }}">
+        {% include 'editor/mastersyllabus/options/batch_copy_preview.html' with collection='blocks' option='batch' %}
+        <div class="col h-100 overflow-y-md-auto p-0 border-end border-secondary">
+            {% csrf_token %}
+            {% for block in blocks %}
+                <div class="d-flex align-items-center border-bottom border-secondary">
+                    <input type="checkbox" class="btn-check batch-copy-check" id="batch-copy-{{ block.id }}-check"
+                           autocomplete="off" data-selected="<div id='batch-copy-{{ block.id }}-selected' class='alert text-bg-warning' role='alert'>{{ block.name }}</div>"
+                           data-selected-id="{{ block.id }}">
+                    <label class="btn btn-outline-warning mx-2" for="batch-copy-{{ block.id }}-check">
+                        {% include 'core/helpers/icon.html' with icon='check-lg' size='1.5rem' %}
+                    </label>
+                    <div class="p-3 ps-1">
+                        {{ block.name }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </form>
+</div>

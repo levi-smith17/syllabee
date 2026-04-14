@@ -1,0 +1,22 @@
+{% load core_extras editor_extras json_loaders %}
+<div class="btn-group btn-group-lg d-flex justify-content-end text-bg-{% if from_toc %}dark{% else %}secondary position-sticky rounded-0 top-14px z-25{% endif %}">
+    {% mb_get_first_section master_bond as master_section %}
+    {% if not from_toc %}
+        <div class="btn-group me-auto">
+            {% get_json_content 'editor' '{"master_syllabus_id": "'|addstr:master_syllabus.id|addstr:'", "segment_id": "'|addstr:segment.id|addstr:'"}' as json_content %}
+            {% get_json_toc 'editor' '{"master_syllabus_id": "'|addstr:master_syllabus.id|addstr:'", "segment_id": "'|addstr:segment.id|addstr:'"}' as json_toc %}
+            {% include 'core/buttons/load_regions.html' with btn_color='secondary rounded-0' icon='arrow-clockwise' icon_color='' json_stage=False json_profile=False json_title=False json_url=False perms=True post_icon=False text='' text_css='' title='Reload' size='1.5rem' %}
+            {% include 'editor/mastersyllabus/segment/options/jump.html' %}
+        </div>
+    {% endif %}
+    {% include 'editor/mastersyllabus/segment/options/printing_optional.html' %}
+    {% include 'editor/mastersyllabus/segment/options/visibility.html' %}
+    {% include 'editor/mastersyllabus/segment/options/preview.html' %}
+    {% include 'editor/mastersyllabus/segment/options/progress.html' %}
+    {% if not master_syllabus.locked %}
+        {% if not from_toc %}
+            {% include 'editor/mastersyllabus/segment/options/add.html' %}
+        {% endif %}
+        {% include 'editor/mastersyllabus/segment/options/manage.html' %}
+    {% endif %}
+</div>

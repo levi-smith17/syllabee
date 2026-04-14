@@ -1,0 +1,39 @@
+{% load django_bootstrap5 core_extras %}
+<form action="{{ modal.url }}" method="post" class="editor-form" autocomplete="off" data-model="{{ modal.model }}"
+      data-operation="reordered" data-target="{{ modal.target }}" data-callback="{{ callback }}" id="arrange-form">
+    {% csrf_token %}
+    <div class="modal-body text-bg-dark">
+        {% include 'core/helpers/alert.html' with alert_css='mb-3' icon='info-square' text=modal.message text_css='ps-3' type=modal.message_type %}
+        <hr>
+        <div class="d-grid gap-3">
+            {% if form.fields %}
+                {% for field in form %}
+                    {{ field }}
+                {% endfor %}
+            {% endif %}
+            <button type="button" class="arrange btn btn-secondary d-flex align-items-center flex-fill"
+                    title="Move Up" data-direction="up" data-target="#ordering">
+                {% include 'core/buttons/content.html' with icon='arrow-up' icon_color='' text='Move Up' text_css='ps-3' size='1.5rem' %}
+            </button>
+            <div id="ordering" class="d-grid gap-1">
+                {% for item in modal.items %}
+                    <div class="btn-group" data-index="{{ forloop.counter }}">
+                        <input type="radio" class="btn-check" id="arrange-{{ forloop.counter }}" name="arrange"
+                               value="{{ item.id }}" autocomplete="off">
+                        <label class="btn btn-outline-warning text-start" for="arrange-{{ forloop.counter }}">
+                            {{ item.name }}
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="button" class="arrange btn btn-secondary d-flex align-items-center flex-fill"
+                    title="Move Down" data-direction="down" data-target="#ordering">
+                {% include 'core/buttons/content.html' with icon='arrow-down' icon_color='' text='Move Down' text_css='ps-3' size='1.5rem' %}
+            </button>
+        </div>
+    </div>
+    <div class="modal-footer text-bg-dark-header border-secondary gap-2">
+        {% include 'core/buttons/form/dismiss.html' with text='Close' %}
+        {% include 'core/buttons/form/submit.html' with color='warning' icon='save' perm=False text='Save' title='' %}
+    </div>
+</form>

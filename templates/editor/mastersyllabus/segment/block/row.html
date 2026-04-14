@@ -1,0 +1,6 @@
+{% load core_extras editor_extras %}
+<div id="segment-{{ bond.segment.id }}-block-{{ bond.block.id }}" class="{% if bond.block|is_printable_block %}{% if bond.block.printableblock.print_group %} border-start border-info border-3{% endif %}{% endif %}">
+    <div id="segment-{{ bond.segment.id }}-block-{{ bond.block.id }}-content" class="d-flex shadow-lg">
+        {% include 'editor/mastersyllabus/segment/block/card/card.html' with render_mode='view' %}
+    </div>
+</div>

@@ -1,0 +1,21 @@
+{% load core_extras viewer_extras %}
+{% for bond in bonds %}
+    {% ifchanged bond.segment.name %}
+        <div id="segment-{{ bond.segment.name|lower_snake }}"
+             class="card shadow-lg border-0 rounded-0 h{{ bond.segment.print_heading }}-border-dark">
+            <h{{ bond.segment.print_heading }} class="card-header border-0 rounded-0 p-5 text-bg-dark">
+                {{ bond.segment.name }}
+            </h{{ bond.segment.print_heading }}>
+        </div>
+    {% endifchanged %}
+    {% if bond.block.printableblock.print_group %}
+        {% regroup bonds by block.printableblock.print_group as grouped_bonds %}
+        {% for grouped_bond in grouped_bonds %}
+            {% if grouped_bond.grouper and bond.id == grouped_bond.list.0.id %}
+                {% include 'editor/mastersyllabus/masterbond/block.html' with block_name=grouped_bond.grouper bond=grouped_bond.list.0 bond_list=grouped_bond.list %}
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        {% include 'editor/mastersyllabus/masterbond/block.html' with block_name=bond.block.name bond_list=False %}
+    {% endif %}
+{% endfor %}

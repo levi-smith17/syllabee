@@ -1,0 +1,42 @@
+{% load editor_extras %}
+<div class="accordion accordion-flush" id="batch-copy-library-accordion">
+    {% for segment in segments %}
+        <div class="accordion-item border-0">
+            <div class="accordion-header d-flex align-items-center border-bottom border-secondary"
+                 id="lib-segment-{{ segment.id }}-header">
+                <input type="checkbox" class="btn-check batch-copy-check" id="batch-copy-{{ segment.id }}-check"
+                       autocomplete="off" data-selected="<div id='batch-copy-{{ segment.id }}-selected' class='alert text-bg-warning' role='alert'>{{ segment.name }}{% if segment.effective_term %} ({{ segment.effective_term }}){% endif %}</div>"
+                       data-selected-id="{{ segment.id }}">
+                <label class="btn btn-outline-warning mx-2" for="batch-copy-{{ segment.id }}-check">
+                    {% include 'core/helpers/icon.html' with icon='check-lg' size='1.5rem' %}
+                </label>
+                <button class="accordion-button collapsed border-0" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#lib-segment-{{ segment.id }}" aria-expanded="false"
+                        aria-controls="lib-segment-{{ segment.id }}"
+                        onclick="editor.segment_preview('#lib-segment-{{ segment.id }}-content', '{% url 'editor:mastersyllabus:segment:preview' master_syllabus_id segment.id %}', '{{ segment.id }}');">
+                    {{ segment.name }}{% if segment.effective_term %} - (W.e.f. {{ segment.effective_term }}){% endif %}
+                    {% if not segment|is_segment_linked %}
+                        <span class="badge ms-2 text-bg-warning"><span>{% include 'core/helpers/icon.html' with icon='exclamation-square' size='1rem' %}</span></span>{% endif %}
+                </button>
+            </div>
+            <div id="lib-segment-{{ segment.id }}" class="accordion-collapse collapse"
+                 aria-labelledby="lib-segment-{{ segment.id }}-header"
+                 data-bs-parent="#batch-copy-library-accordion">
+                <div class="accordion-body p-3 overflow-y-auto overflow-x-auto border-bottom border-secondary">
+                    {% if not segment|is_segment_linked %}
+                        {% include 'core/helpers/alert.html' with alert_css='p-2' icon='exclamation-square' text='<strong>WARNING</strong>: this segment is not linked to any master syllabus. Consider deleting this segment if it is no longer needed.' text_css='ps-3' type='warning' %}
+                    {% endif %}
+                    <div id="lib-segment-{{ segment.id }}-loader" class="text-center py-4">
+                        {% include 'core/helpers/loader.html' with color='warning' embed=True %}
+                    </div>
+                    <div id="lib-segment-{{ segment.id }}-content" class="d-grid gap-3"></div>
+                    <hr class="my-3 text-bg-dark">
+                    {% url 'editor:mastersyllabus:segment:delete' master_syllabus_id segment.id as delete_url %}
+                    {% include 'core/buttons/form/modal.html' with color='danger w-100' icon='trash' perm=True text='Delete (Forever)' title='Delete Segment (Forever)' url=delete_url %}
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        {% include 'core/helpers/alert.html' with alert_css='m-3' icon='info-square' text='<strong>NOTE</strong>: no results match your current search criteria.' text_css='ps-3' type='info' %}
+    {% endfor %}
+</div>

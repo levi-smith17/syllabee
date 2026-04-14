@@ -1,0 +1,9 @@
+{% load editor_extras %}
+{% replace_block_required master_syllabus.id bond.segment.id bond.block.id as replace_required %}
+{% if replace_required %}
+    {% include 'core/helpers/alert.html' with alert_css='p-3' icon='exclamation-octagon' text='<strong>WARNING</strong>: You must click the Save button (above) before you can edit this schedule (otherwise, previous schedules may be inadvertently changed). Once you have done so, you will need to reopen the editing window.' text_css='ps-3' type='warning' %}
+{% else %}
+    <div id="schedule-{{ bond.block.printableblock.scheduleblock.schedule.id }}">
+        {% include 'viewer/helpers/block.html' with master_syllabus=master_syllabus render_mode='edit' %}
+    </div>
+{% endif %}

@@ -1,0 +1,9 @@
+{% load core_extras %}
+<div class="btn-group">
+    {% define_if from_toc 'dark' 'warning' as btn_color %}
+    {% define_if master_syllabus.locked 'lock-fill' 'unlock' as icon %}
+    {% define_if from_toc 'warning' 'dark' as icon_color %}
+    {% define_if master_syllabus.locked 'unlock' 'lock' as operation %}
+    {% url 'editor:mastersyllabus:lock' master_syllabus.id as url %}
+    {% include 'editor/helpers/buttons/offcanvas_modal.html' with control='modal' full=False next=False perm=True text='' text_css='' title=operation|title|addstr:' Master Syllabus' %}
+</div>

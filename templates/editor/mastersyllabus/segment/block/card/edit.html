@@ -1,0 +1,10 @@
+{% load core_extras editor_extras %}
+<div class="offcanvas-body p-0">
+    <form id="offcanvas-form" action="{{ edit_url }}" method="post" enctype="multipart/form-data" autocomplete="off"
+          class="editor-form was-validated" data-model="{{ verbose_name }}" data-operation="updated"
+          data-target="{{ target }}" data-callback="{{ callback }}">
+        {% csrf_token %}
+        {% include 'editor/mastersyllabus/segment/block/card/card.html' with render_mode='edit' %}
+    </form>
+</div>
+

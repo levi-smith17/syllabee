@@ -1,0 +1,13 @@
+{% load core_extras editor_extras %}
+<div class="btn-group btn-group-lg d-flex flex-column m-0 text-bg-dark-header rounded-0">
+    {% if bond.block|is_printable_block %}
+        {% if render_mode == 'view' %}
+            <div class="opacity-50 p-2" title="Print Heading">{% include 'core/helpers/icon.html' with icon='type-h'|addstr:bond.block.printableblock.print_heading size='1.5rem' %}</div>
+        {% endif %}
+    {% endif %}
+    <div class="opacity-50 p-2">{% include 'viewer/helpers/icon.html' with block=bond.block %}</div>
+    {% include 'editor/mastersyllabus/segment/block/options/preview.html' %}
+    {% if not master_syllabus.locked %}
+        {% include 'editor/mastersyllabus/segment/block/options/manage.html' %}
+    {% endif %}
+</div>

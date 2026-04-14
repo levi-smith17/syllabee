@@ -1,0 +1,10 @@
+{% load core_extras editor_extras %}
+<div class="card-header border-0 rounded-0 pt-5 px-5 text-bg-dark">
+    <div class="text-start flex-fill">
+        {% if bond.block|is_printable_block %}
+            <h{{ bond.block.printableblock.print_heading }} class="m-0 text-break">{{ bond.block.name }}</h{{ bond.block.printableblock.print_heading }}>
+        {% else %}
+            <h3>{{ bond.block.name }}</h3>
+        {% endif %}
+    </div>
+</div>

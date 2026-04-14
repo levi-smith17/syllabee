@@ -1,0 +1,4 @@
+<li class="pt-1">
+    {% url 'editor:block:details:detail:arrange' master_syllabus.id bond.segment.id bond.block.id as url %}
+    {% include 'editor/helpers/buttons/dropdown.html' with control='modal' full=False icon='arrows-move' icon_color='' next=False text='Arrange' title='Arrange Details' %}
+</li>

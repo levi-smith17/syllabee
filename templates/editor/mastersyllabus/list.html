@@ -1,0 +1,15 @@
+{% load core_extras json_loaders %}
+{% for master_syllabus in master_syllabi %}
+    <li class="d-flex">
+        {% get_json_content 'editor' '{"master_syllabus_id": "'|addstr:master_syllabus.id|addstr:'"}' as json_content %}
+        {% get_json_profile '{"instructor_id": "'|addstr:master_syllabus.owner.id|addstr:'", "master_syllabus_id": "'|addstr:master_syllabus.id|addstr:'"}' as json_profile %}
+        {% get_json_toc 'editor' '{"master_syllabus_id": "'|addstr:master_syllabus.id|addstr:'"}' as json_toc %}
+        {% url 'editor:index' as json_url %}
+        {% define_if master_syllabus.locked 'lock-fill' 'unlock' as post_icon %}
+        {% include 'core/buttons/load_regions.html' with btn_color='dark dropdown-item flex-fill py-2 rounded-0' icon='journals' icon_color='' json_stage=False json_title=master_syllabus text=master_syllabus text_css='ps-3' title=master_syllabus size='1.5rem' %}
+    </li>
+{% empty %}
+    <li class="my-2">
+        {% include 'core/helpers/alert.html' with alert_css='m-0 py-1 rounded-0' icon='' text_css='' text='No <strong>Master Syllabi</strong> have been added yet. Please use the button below to add a <strong>Master Syllabus</strong>.' type='info' %}
+    </li>
+{% endfor %}

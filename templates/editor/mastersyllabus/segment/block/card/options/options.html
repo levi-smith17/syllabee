@@ -1,0 +1,27 @@
+{% load core_extras %}
+{% with template_name='editor/mastersyllabus/segment/block/card/options/add/'|add:bond.block.type|add:'.html' %}
+    {% if template_name|template_exists %}
+        {% include ''|add:template_name %}
+    {% endif %}
+{% endwith %}
+<div class="btn-group">
+    <button type="button" class="btn btn-dark d-flex align-items-center rounded-end"
+            title="Manage {{ bond.block.type|title }} Block" data-bs-toggle="dropdown" aria-expanded="false">
+        {% include 'core/buttons/content.html' with icon='three-dots' icon_color='' text='' text_css='d-none' size='1.5rem' %}
+    </button>
+    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+        <li><h6 class="px-3">Manage {{ bond.block.type|title }} Block</h6></li>
+        {% with template_name='editor/mastersyllabus/segment/block/card/options/'|add:bond.block.type|add:'.html' %}
+            {% if template_name|template_exists %}
+                {% include ''|add:template_name %}
+                {% if delete_url %}<li><hr class="my-2"></li>{% endif %}
+            {% endif %}
+        {% endwith %}
+        {% if delete_url %}
+            <li>
+                {% include 'editor/helpers/buttons/dropdown.html' with control='modal' full=False icon='trash' icon_color='danger' next=False text='Delete (Forever)' title='Delete '|add:verbose_name|title|add:' (Forever)' url=delete_url %}
+            </li>
+        {% endif %}
+    </ul>
+</div>
+

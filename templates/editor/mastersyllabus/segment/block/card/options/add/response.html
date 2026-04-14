@@ -1,0 +1,17 @@
+<div class="btn-group">
+    <button type="button" class="btn btn-dark d-flex align-items-center"
+            title="Add Question" data-bs-toggle="dropdown" aria-expanded="false">
+        {% include 'core/buttons/content.html' with icon='plus-lg' icon_color='' text='' text_css='d-none' size='1.5rem' %}
+    </button>
+    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+        <li><h6 class="px-3">Add Question</h6></li>
+        <li>
+            {% url 'editor:block:response:multiple_choice_question:create' master_syllabus.id bond.segment.id bond.block.id as url %}
+            {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=False icon='question' icon_color='' next=False text='Multiple Choice' title='Add Multiple Choice Question' %}
+        </li>
+        <li>
+            {% url 'editor:block:response:true_false_question:create' master_syllabus.id bond.segment.id bond.block.id as url %}
+            {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=False icon='question' icon_color='' next=False text='True/False' title='Add True/False Question' %}
+        </li>
+    </ul>
+</div>

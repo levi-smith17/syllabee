@@ -1,0 +1,4 @@
+<li class="pt-1">
+    {% url 'editor:block:table:update_properties' master_syllabus.id bond.segment.id bond.block.id as url %}
+    {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=False icon='pencil' icon_color='' next=False text='Edit Properties' title='Edit Table Block Properties' %}
+</li>

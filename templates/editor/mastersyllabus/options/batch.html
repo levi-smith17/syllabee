@@ -1,0 +1,36 @@
+{% load core_extras editor_extras %}
+<div class="offcanvas-body h-100 p-0">
+    <form action="{% url 'editor:mastersyllabus:segment:update_batch_submit' master_syllabus.id %}" method="post"
+          class="editor-form row row-cols-1 row-cols-md-2 h-100 p-0 m-0 flex-md-row-reverse overflow-y-auto overflow-y-md-hidden"
+          autocomplete="off" data-model="master syllabus" data-operation="updated" data-target="{{ target }}"
+          data-callback="{{ callback }}">
+        {% include 'editor/mastersyllabus/options/batch_copy_preview.html' with collection='segments' option='batch' %}
+        <div class="col h-100 overflow-y-md-auto p-0 border-end border-secondary">
+            {% csrf_token %}
+            {% for segment in segments %}
+                <div class="d-flex align-items-center border-bottom border-secondary">
+                    <input type="checkbox" class="btn-check batch-copy-check" id="batch-copy-{{ segment.id }}-check"
+                           autocomplete="off" data-selected="<div id='batch-copy-{{ segment.id }}-selected' class='alert text-bg-warning' role='alert'>{{ segment.name }}{% if segment.effective_term %} ({{ segment.effective_term }}){% endif %}</div>"
+                           data-selected-id="{{ segment.id }}">
+                    <label class="btn btn-outline-warning mx-2" for="batch-copy-{{ segment.id }}-check">
+                        {% include 'core/helpers/icon.html' with icon='check-lg' size='1.5rem' %}
+                    </label>
+                    <div class="px-2 py-3">
+                        {% get_master_bond master_syllabus.id segment.id as master_bond %}
+                        {% if master_bond.visibility %}
+                            {% define 'eye' as icon %}
+                            {% define 'success' as icon_color %}
+                        {% else %}
+                            {% define 'eye-slash' as icon %}
+                            {% define 'danger' as icon_color %}
+                        {% endif %}
+                        <span class="text-{{ icon_color }}">{% include 'core/helpers/icon.html' with size='1.5rem' %}</span>
+                    </div>
+                    <div class="p-3 ps-1">
+                        {{ segment.name }}{% if segment.effective_term %} ({{ segment.effective_term }}){% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </form>
+</div>

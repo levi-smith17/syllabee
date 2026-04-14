@@ -1,0 +1,37 @@
+{% load core_extras %}
+<div class="btn-group">
+    {% define_if from_toc 'dark rounded-end' 'warning' as btn_color %}
+    {% include 'editor/helpers/buttons/dropdown_toggle.html' with auto_close='true' icon='three-dots' icon_color='' perm=True text='' text_css='' title='Manage Master Syllabus' %}
+    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-lg">
+        {% if master_bonds|length > 1 %}
+            <li><h6 class="dropdown-header">Manage Segment(s)</h6></li>
+            <li>
+                {% url 'editor:masterbond:arrange' master_syllabus.id as url %}
+                {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=False icon='arrows-move' icon_color='' next=False text='Arrange' title='Arrange Segments' %}
+            </li>
+            <li>
+                {% url 'editor:mastersyllabus:segment:update_batch' master_syllabus.id as url %}
+                {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=True icon='pencil-square' icon_color='' next=False text='Batch Edit' title='Batch Edit' %}
+            </li>
+            <li><hr class="dropdown-divider"></li>
+        {% endif %}
+        {% if master_syllabus.interactive_view %}
+            <li><h6 class="dropdown-header text-wrap">Manage Interactive Syllabus Settings</h6></li>
+            <li>
+                {% url 'editor:mastersyllabus:interactive' master_syllabus.id as url %}
+                {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=False icon='pencil' icon_color='' next=False text='Edit Settings' title='Edit Interactive Syllabus Settings' %}
+            </li>
+            <li><hr class="dropdown-divider"></li>
+        {% endif %}
+        <li><h6 class="dropdown-header">Manage Master Syllabus</h6></li>
+        <li>
+            {% url 'editor:mastersyllabus:update' master_syllabus.id as url %}
+            {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=True icon='pencil' icon_color='' next=False text='Edit' title='Edit Master Syllabus' %}
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+            {% url 'editor:mastersyllabus:delete' master_syllabus.id as url %}
+            {% include 'editor/helpers/buttons/dropdown.html' with control='modal' full=False icon='trash3' icon_color='danger' next=False text='Delete (Forever)' title='Delete Master Syllabus' %}
+        </li>
+    </ul>
+</div>

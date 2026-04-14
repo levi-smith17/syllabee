@@ -1,0 +1,9 @@
+{% load core_extras editor_extras %}
+{% if not master_syllabus.locked %}
+    {% if not segment_course_valid %}
+        {% include 'core/helpers/alert.html' with alert_css='mb-0 mt-3 mx-3' icon='x-square' text='<strong>ERROR</strong>: at least one of the blocks associated with this segment is invalid. The invalid block(s) has/have been marked below. Confirm that the section(s) associated with this segment match(es) the course of each marked (dynamic) block below. The master syllabus cannot be locked until this error is resolved.' text_css='ps-3' type='danger' %}
+    {% endif %}
+    {% if bonds|length == 0 %}
+        {% include 'core/helpers/alert.html' with alert_css='mb-0 mt-3 mx-3' icon='info-square' text='<strong>NOTE</strong>: there are no blocks linked to this segment yet! Use the Add (+) button above to add a block.' text_css='ps-3' type='info' %}
+    {% endif %}
+{% endif %}

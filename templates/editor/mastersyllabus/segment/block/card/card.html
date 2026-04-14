@@ -1,0 +1,48 @@
+{% load core_extras editor_extras %}
+{% if render_mode == 'view' %}
+    {% include 'editor/mastersyllabus/segment/block/options/options.html' %}
+{% endif %}
+<div class="card border-0{% if render_mode == 'edit' %} min-height-20r{% endif %} rounded-0 text-bg-dark w-100">
+    {% if render_mode == 'edit' %}
+        {% include 'editor/mastersyllabus/segment/block/card/edit/header.html' %}
+    {% else %}
+        {% include 'editor/mastersyllabus/segment/block/card/header.html' %}
+    {% endif %}
+    <div class="{% if render_mode == 'edit' %}p-3{% else %}card-body px-5 pb-5 text-bg-dark{% endif %}">
+        {% verify_blk_course master_syllabus bond.segment bond.block as valid_block %}
+        {% if not valid_block %}
+            {% include 'core/helpers/alert.html' with alert_css='p-3' icon='x-octagon' text='<strong>ERROR</strong>: Course Mismatch' text_css='ps-3' type='danger' %}
+        {% endif %}
+        {% if bond.block|is_printable_block %}
+            {% has_attr bond.block.printableblock 'scheduleblock' as is_schedule_block %}
+            {% if render_mode == 'edit' %}
+                {% if model == 'contentblock' %}
+                    {% include 'editor/mastersyllabus/segment/block/card/body/content.html' %}
+                {% elif model == 'scheduleblock' %}
+                    {% include 'editor/mastersyllabus/segment/block/card/body/schedule.html' %}
+                {% else %}
+                    {% include 'viewer/helpers/block.html' with render_mode='edit' %}
+                {% endif %}
+            {% else %}
+                {% if render_mode == 'replace' %}
+                    {% include 'core/helpers/alert.html' with alert_css='' icon='info-square' text='This block is locked, so it cannot be edited until you <strong>Save</strong> it. Doing so creates a deep copy of this block, which is fully editable.' text_css='ps-3' type='info' %}
+                {% endif %}
+                {% if bond.block.type == 'content' and not bond.block.printableblock.contentblock.content %}
+                    {% include 'core/helpers/alert.html' with alert_css='m-0 p-2' icon='x-octagon' text='<strong>WARNING</strong>: No Content!' text_css='ps-3' type='warning' %}
+                {% endif %}
+                {% if is_schedule_block %}{% define 'options' as render_mode %}{% endif %}
+                {% include 'viewer/helpers/block.html' %}
+            {% endif %}
+        {% else %}
+            {% include 'editor/mastersyllabus/segment/block/card/response/body.html' %}
+        {% endif %}
+    </div>
+    {% if render_mode == 'view' %}
+        <div class="card-footer p-0 border-0">
+            <button type="button" class="scroll-top btn btn-secondary d-flex align-items-center rounded-0 w-100"
+                    data-target=".syllabus-content">
+                {% include 'core/buttons/content.html' with icon='arrow-up' icon_color='' text='Back to Top' text_css='ps-3' size='1.5rem' %}
+            </button>
+        </div>
+    {% endif %}
+</div>

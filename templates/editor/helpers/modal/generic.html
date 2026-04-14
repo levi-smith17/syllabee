@@ -1,0 +1,30 @@
+{% load core_extras %}
+<form action="{% if modal.url %}{{ modal.url }}{% endif %}{% if modal.next %}?next={{ modal.next }}{% endif %}"
+      method="post" class="{% if modal.url %}{% if modal.ajax %}editor-form {% endif %}was-validated{% endif %}"
+      data-model="{% if verbose_name %}{{ verbose_name }}{% endif %}"
+      data-operation="{% if modal.operation %}{{ modal.operation }}{% endif %}"
+      data-target="{% if modal.target %}{{ modal.target }}{% endif %}"
+      data-callback="{{ callback }}" data-content-id="{{ content_id }}">
+    {% csrf_token %}
+    <div class="modal-body text-bg-dark">
+        {% if modal.message %}
+            {% get_alert_icon modal.message_type as icon %}
+            {% include 'core/helpers/alert.html' with alert_css=modal.message_alert_css text=modal.message|safe text_css='ps-3' type=modal.message_type %}
+        {% endif %}
+        {% if form %}
+            {% if form.fields %}
+                <div class="d-grid gap-2 mt-3">
+                    {% include 'core/offcanvas/field.html' %}
+                </div>
+            {% endif %}
+        {% elif content %}
+            {{ content|safe }}
+        {% endif %}
+    </div>
+    <div class="modal-footer text-bg-dark-header border-secondary gap-2">
+        {% include 'core/buttons/form/dismiss.html' with text='Close' %}
+        {% if modal.url %}
+            {% include 'core/buttons/form/submit.html' with color='warning' icon=modal.submit_icon perm=True text=modal.submit_text title='' %}
+        {% endif %}
+    </div>
+</form>

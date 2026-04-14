@@ -1,0 +1,8 @@
+{% load core_extras editor_extras json_loaders %}
+{% if master_syllabus.interactive_view and from_toc %}
+    <div class="btn-group">
+        {% define_if master_syllabus.locked ' rounded-end' '' as btn_color_additional %}
+        {% get_json_content 'progress' '{"master_syllabus_id": "'|addstr:master_syllabus.id|addstr:'"}' as json_content %}
+        {% include 'core/buttons/load_regions.html' with btn_color='dark'|addstr:btn_color_additional icon='bar-chart-steps' icon_color='' json_stage=False json_profile=False json_toc=False json_title='' json_url=False perms=True post_icon=False text='' text_css='' title='Student Progress Dashboard' size='1.5rem' %}
+    </div>
+{% endif %}

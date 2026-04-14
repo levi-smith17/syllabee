@@ -1,0 +1,2 @@
+{% url 'editor:block:list:item:create' master_syllabus.id bond.segment.id bond.block.id as url %}
+{% include 'editor/helpers/buttons/offcanvas_modal.html' with btn_color='dark' control='offcanvas' full=False icon='plus-lg' icon_color='' next=False perm=True text='' text_css='' title='Add Item' %}

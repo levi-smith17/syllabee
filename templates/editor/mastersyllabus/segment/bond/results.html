@@ -1,0 +1,57 @@
+{% load core_extras editor_extras %}
+<div class="accordion accordion-flush" id="batch-copy-library-accordion">
+    {% mb_get_first_section master_bond as master_section %}
+    {% for block in blocks %}
+        <div class="accordion-item border-0">
+            <div class="accordion-header d-flex align-items-center border-bottom border-secondary"
+                 id="lib-block-{{ block.id }}-header">
+                <input type="checkbox" class="btn-check batch-copy-check" id="batch-copy-{{ block.id }}-check"
+                       autocomplete="off" data-selected="<div id='batch-copy-{{ block.id }}-selected' class='alert text-bg-warning' role='alert'>{{ block.name }}</div>"
+                       data-selected-id="{{ block.id }}">
+                <label class="btn btn-outline-warning mx-2" for="batch-copy-{{ block.id }}-check">
+                    {% include 'core/helpers/icon.html' with icon='check-lg' size='1.5rem' %}
+                </label>
+                <button class="accordion-button border-0 collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#lib-block-{{ block.id }}" aria-expanded="false"
+                        aria-controls="lib-block-{{ block.id }}"
+                        onclick="loader.load_region('#lib-block-{{ block.id }}-content', '{% url 'editor:bond:create_block' master_syllabus.id segment.id block.id %}', false);">
+                    {{ block.name }}{% if block.printableblock.effective_term %} - (W.e.f. {{ block.printableblock.effective_term }}){% endif %}
+                    {% if not block|is_block_linked %}<span class="badge ms-2 text-bg-warning"><span>{% include 'core/helpers/icon.html' with icon='exclamation-square' size='1rem' %}</span></span>{% endif %}
+                </button>
+            </div>
+            <div id="lib-block-{{ block.id }}" class="accordion-collapse collapse"
+                 aria-labelledby="lib-block-{{ block.id }}-header" data-bs-parent="#batch-copy-library-accordion">
+                <div class="accordion-body p-3 overflow-y-auto border-bottom border-secondary">
+                    {% if not block|is_block_linked %}
+                        {% include 'core/helpers/alert.html' with alert_css='p-2' icon='exclamation-square' text='<strong>WARNING</strong>: this block is not linked to any segment. Consider deleting this block if it is no longer needed.' text_css='ps-3' type='warning' %}
+                    {% endif %}
+                    {% has_perm master_section|negate block|is_dynamic_block as is_dynamic %}
+                    {% if is_dynamic %}
+                        {% include 'core/helpers/alert.html' with alert_css='p-2' icon='info-square' text='<strong>NOTE</strong>: this is a dynamic block, which cannot be linked to this segment (as it does not support dynamic blocks).' text_css='ps-3' type='info' %}
+                    {% endif %}
+                    <div class="d-grid gap-2">
+                        <div id="lib-block-{{ block.id }}-content">
+                            <div class="text-center py-4">
+                                {% include 'core/helpers/loader.html' with color='warning' embed=True %}
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-3 text-bg-dark">
+                    <form id="offcanvas-form" action="{{ add_url }}" method="post" enctype="multipart/form-data"
+                          autocomplete="off" class="editor-form was-validated" data-model="{{ verbose_name }}"
+                          data-operation="added" data-target="{{ target }}">
+                        {% csrf_token %}
+                        <input type="hidden" name="block" value="{{ block.id }}" />
+                        <div class="btn-group w-100" role="group" aria-label="Block Management Options">
+                            {% has_perm master_section|negate block|is_dynamic_block as has_perm %}
+                            {% url 'editor:block:delete' master_syllabus.id segment.id block.id as delete_url %}
+                            {% include 'core/buttons/form/modal.html' with color='danger' icon='trash' perm=delete_perm text='Delete' title='Delete Block' url=delete_url %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        {% include 'core/helpers/alert.html' with alert_css='m-3' icon='info-square' text='<strong>NOTE</strong>: no results match your current search criteria.' text_css='ps-3' type='info' %}
+    {% endfor %}
+</div>

@@ -1,0 +1,54 @@
+{% load core_extras editor_extras json_loaders viewer_extras %}
+{% get_master_bond_sections master_bond as master_sections %}
+{% if from_toc or master_sections and not from_toc %}
+    <div class="btn-group">
+        {% define_if from_toc 'dark rounded-0' 'secondary rounded-0' as btn_color %}
+        {% define_if from_toc 'info' 'light' as icon_color %}
+        {% if master_syllabus.interactive_view %}
+            {% include 'editor/helpers/buttons/dropdown_toggle.html' with auto_close='outside' icon='binoculars' perm=master_sections text='' text_css='' title='Preview Syllabus' %}
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-lg">
+                {% if master_sections %}
+                    {% for master_bond_section in master_sections %}
+                        <li><h6 class="dropdown-header">Preview {{ master_bond_section.section }}</h6></li>
+                        {% get_json_stage 'complete' '{"section_hash": "'|addstr:master_bond_section.section.hash|addstr:'"}' as json_stage %}
+                        {% get_json_toc 'complete' '{"section_hash": "'|addstr:master_bond_section.section.hash|addstr:'"}' as json_toc %}
+                        {% get_syll_title master_bond_section.section as json_title %}
+                        {% url 'viewer:interactive:syllabus' master_bond_section.section.hash as json_url %}
+                        {% include 'core/buttons/load_regions.html' with btn_color='dark dropdown-item py-2 rounded-0' icon='journal-text' icon_color='' json_content=False json_profile=False perms=True post_icon=False text='Complete Syllabus' text_css='ps-3' title='Preview Complete Syllabus' size='1.5rem' %}
+                        {% get_json_stage 'toc' '{"section_hash": "'|addstr:master_bond_section.section.hash|addstr:'"}' as json_stage %}
+                        {% get_json_content 'interactive' '{"section_hash": "'|addstr:master_bond_section.section.hash|addstr:'"}' as json_content %}
+                        {% include 'core/buttons/load_regions.html' with btn_color='dark dropdown-item py-2 rounded-0' icon='journal-richtext' icon_color='' json_profile=False json_toc=False perms=True post_icon=False text='Interactive Syllabus' text_css='ps-3' title='Preview Interactive Syllabus' size='1.5rem' %}
+                    {% endfor %}
+                    {% define 'journal-richtext' as icon %}
+                    <li><hr class="dropdown-divider"></li>
+                    <li><h6 class="dropdown-header">Copy URL</h6></li>
+                    {% for master_bond_section in master_sections %}
+                        {% url 'viewer:interactive:syllabus' master_bond_section.section.hash as url %}
+                        {% include 'editor/mastersyllabus/segment/options/clipboard.html' %}
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        {% else %}
+            {% include 'editor/helpers/buttons/dropdown_toggle.html' with auto_close='outside' icon='binoculars' perm=master_sections text='' text_css='' title='Preview Syllabus' %}
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-lg">
+                <li><h6 class="dropdown-header">Preview</h6></li>
+                {% if master_sections %}
+                    {% for master_bond_section in master_sections %}
+                        <a href="{% url 'viewer:traditional:syllabus' master_bond_section.section.course.course_code|lower master_bond_section.section.section_code|lower master_bond_section.section.term.term_code|lower %}"
+                           target="_blank" class="btn btn-dark dropdown-item d-flex align-items-center py-2 rounded-0">
+                            {% include 'core/buttons/content.html' with icon='journal-text' icon_color='' size='1.5rem' text=master_bond_section.section text_css='px-3' %}
+                            <span class="d-flex align-items-center">{% include 'core/helpers/icon.html' with icon='box-arrow-up-right' size='1.5rem' %}</span>
+                        </a>
+                    {% endfor %}
+                    {% define 'journal-text' as icon %}
+                    <li><hr class="dropdown-divider"></li>
+                    <li><h6 class="dropdown-header">Copy URL</h6></li>
+                    {% for master_bond_section in master_sections %}
+                        {% url 'viewer:traditional:syllabus' master_bond_section.section.course.course_code|lower master_bond_section.section.section_code|lower master_bond_section.section.term.term_code|lower as url %}
+                        {% include 'editor/mastersyllabus/segment/options/clipboard.html' %}
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        {% endif %}
+    </div>
+{% endif %}

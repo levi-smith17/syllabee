@@ -1,0 +1,28 @@
+{% load django_bootstrap5 core_extras editor_extras %}
+<div class="offcanvas-body h-100 p-0">
+    <form action="{% url 'editor:masterbond:create_submit' master_syllabus_id %}" method="post"
+          class="editor-form row row-cols-1 row-cols-md-2 h-100 m-0 p-0 flex-md-row-reverse overflow-y-auto overflow-y-md-hidden"
+          autocomplete="off" data-model="segment(s)" data-operation="copied" data-target="{{ target }}"
+          data-callback="{{ callback }}">
+        {% csrf_token %}
+        {% include 'editor/mastersyllabus/options/batch_copy_preview.html' with collection='segments' option='copy' %}
+        <div class="col border-end border-secondary h-100 overflow-y-md-auto p-0">
+            <div class="input-group flex-nowrap ps-3 border-bottom border-secondary">
+                <span class="d-flex align-items-center text-white">{% include 'core/helpers/icon.html' with icon='search' size='1.5rem' %}</span>
+                <div class="form-floating">
+                    <input type="text" id="segment-library-search" name="search" value="" placeholder="Search"
+                           class="search form-control text-bg-dark rounded-0 border-0" aria-label="Search"
+                           aria-describedby="segment-library-search" data-target="#segment-library-search-results"
+                           data-url="{% url 'editor:masterbond:search' master_syllabus_id %}">
+                    <label for="segment-library-search">Search</label>
+                </div>
+                <button class="search-clear btn btn-outline-danger border-0 rounded-0 d-flex align-items-center search-clear"
+                        type="button" data-field="#segment-library-search" data-target="#segment-library-search-results"
+                        title="Clear Search Field" data-url="{% url 'editor:masterbond:search' master_syllabus_id %}">
+                    {% include 'core/helpers/icon.html' with icon='x-lg' size='1.5rem' %}
+                </button>
+            </div>
+            <div id="segment-library-search-results"></div>
+        </div>
+    </form>
+</div>

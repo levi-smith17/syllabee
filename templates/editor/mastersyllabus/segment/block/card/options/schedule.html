@@ -1,0 +1,4 @@
+<li class="pt-1">
+    {% url 'editor:block:schedule:update_properties' master_syllabus.id bond.segment.id bond.block.id bond.block.printableblock.scheduleblock.schedule.id as url %}
+    {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=False icon='pencil' icon_color='' next=False text='Edit Properties' title='Edit Schedule Block Properties' %}
+</li>

@@ -1,0 +1,9 @@
+<li><h6 class="dropdown-header">Add Segment</h6></li>
+<li>
+    {% url 'editor:mastersyllabus:segment:create' master_syllabus.id segment_order as url %}
+    {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=False icon='plus-lg' icon_color='' next=False text='Create' title='Create New Segment' %}
+</li>
+<li>
+    {% url 'editor:masterbond:create' master_syllabus.id as url %}
+    {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=True icon='copy' icon_color='' next=False text='Copy Content' title='Copy Content' %}
+</li>

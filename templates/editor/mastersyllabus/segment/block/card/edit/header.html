@@ -1,0 +1,44 @@
+{% load django_bootstrap5 core_extras editor_extras %}
+{% has_attr bond.block 'responseblock' as is_response_block %}
+<div class="row text-bg-dark-header border-bottom border-1 border-secondary m-0 p-4 d-grid d-lg-flex gap-3 gap-xl-0">
+    <div class="col-xl-{% if bond.block|is_printable_block %}6{% elif is_response_block %}9{% else %}12{% endif %} p-0 pe-xl-3">
+        <div class="d-flex align-items-start flex-fill">
+            <div class="d-inline-flex align-items-start justify-content-center" title="{{ bond.block.type }}">
+                {% if bond.block|is_printable_block %}
+                    {% if render_mode == 'view' %}
+                        <div class="me-3" title="Print Heading">{% include 'core/helpers/icon.html' with icon=bond.block.printableblock.print_heading|addstr:'-square' size='1.5rem' %}</div>
+                    {% endif %}
+                {% endif %}
+                <div>{% include 'viewer/helpers/icon.html' with block=bond.block %}</div>
+            </div>
+            <span class="text-start ps-3 flex-fill">
+                {% if render_mode == 'edit' or render_mode == 'replace' %}
+                    {% bootstrap_field form.name layout='floating' field_class='text-bg-dark' wrapper_class='m-0' show_help=False %}
+                {% else %}
+                    {% if bond.block|is_printable_block %}
+                        <h{{ bond.block.printableblock.print_heading }} class="m-0 text-break">{{ bond.block.name }}</h{{ bond.block.printableblock.print_heading }}>
+                    {% else %}
+                        <h3>{{ bond.block.name }}</h3>
+                    {% endif %}
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    {% if bond.block|is_printable_block %}
+        <div class="col-xl-3 p-0 pe-xl-3">
+            {% if render_mode == 'edit' or render_mode == 'replace' %}
+                <div class="flex-fill" title="{{ form.print_heading.help_text }}">{% bootstrap_field form.print_heading layout='floating' field_class='text-bg-dark' wrapper_class='m-0' show_help=False %}</div>
+            {% endif %}
+        </div>
+    {% endif %}
+    {% if render_mode == 'edit' or render_mode == 'replace' %}
+        <div class="col-xl-3 p-0 d-flex">
+            <div class="btn-group w-100">
+                {% include 'core/buttons/form/submit.html' with color='warning w-100' icon='save' perm=change_perm text='Save' title='' %}
+                {% if render_mode == 'edit' %}
+                    {% include 'editor/mastersyllabus/segment/block/card/options/options.html' %}
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+</div>

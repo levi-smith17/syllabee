@@ -1,0 +1,25 @@
+{% load core_extras %}
+{% for question in questions %}
+    {% has_attr question 'multiplechoicequestion' as is_multiple_choice_question %}
+    {% has_attr question 'truefalsequestion' as is_true_false_question %}
+    {% define '#response-'|addstr:question.id|addstr:'-form' as form_id %}
+    <div id="question-{{ question.id }}" class="card bg-dark shadow-lg border-0 rounded-0 d-flex flex-row">
+        {% define_if is_multiple_choice_question 'multiple_choice_question' 'true_false_question' as question_type %}
+        {% include 'editor/mastersyllabus/segment/block/card/response/options.html' %}
+        <form action="" method="get"
+              id="response-form" class="check-form w-100" data-target="#content-container">
+            {% csrf_token %}
+            <div class="card-body p-5 text-bg-dark">
+                {% if is_multiple_choice_question %}
+                    <form id="response-{{ question.id }}-form">{% include 'viewer/interactive/card/response/multiple_choice_question.html' with attempt=None show_answer=True %}</form>
+                {% elif is_true_false_question %}
+                    <form id="response-{{ question.id }}-form">{% include 'viewer/interactive/card/response/true_false_question.html' with attempt=None show_answer=True %}</form>
+                {% else %}
+                    <div>{% include 'core/helpers/alert.html' with alert_css='m-0' icon='x-square' text='Unsupported question type!' text_css='ps-3' type='danger' %}</div>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+{% empty %}
+    <div>{% include 'core/helpers/alert.html' with alert_css='m-0' icon='info-square' text='No questions have been added to this pool yet!  Use the Add (+) button above to add a question.' text_css='ps-3' type='info' %}</div>
+{% endfor %}

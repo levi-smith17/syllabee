@@ -1,0 +1,32 @@
+{% load django_bootstrap5 core_extras %}
+{% define ' rounded-0 rounded-bottom' as field_class_help %}
+<div class="d-grid gap-3">
+    <div class="input-group d-flex flex-column">
+        {% if form.print_group.help_text %}
+            <div class="input-group-text text-bg-secondary border-secondary d-block rounded-0 rounded-top text-start text-wrap">
+                {{ form.print_group.help_text }}
+            </div>
+        {% endif %}
+        <div class="flex-fill" title="{{ form.print_group.help_text }}">{{ form.print_group }}</div>
+    </div>
+    <div class="input-group d-flex flex-column">
+        {% include 'core/offcanvas/field_help.html' with field=form.content.field %}
+        {{ form.content }}
+    </div>
+    <div class="input-group d-flex flex-column">
+        {% include 'core/offcanvas/field_help.html' with field=form.image.field %}
+        {% if form.image.value %}
+            <img src="{{ MEDIA_URL }}{{ form.image.value }}" alt="{% if field.image.value %}{{ field.image.help_text }}{% else %}No image uploaded.{% endif %}"
+                 class="mx-0 border-start border-end border-secondary border-1 w-100" />
+        {% endif %}
+        {% bootstrap_field form.image layout='floating' field_class='text-bg-dark'|add:field_class_help wrapper_class='m-0' show_help=False show_label=False %}
+    </div>
+    <div class="input-group d-flex flex-column">
+        {% include 'core/offcanvas/field_help.html' with field=form.image_position.field %}
+        {% bootstrap_field form.image_position layout='floating' field_class='text-bg-dark'|add:field_class_help wrapper_class='m-0' show_help=False %}
+    </div>
+    <div class="input-group d-flex flex-column">
+        {% include 'core/offcanvas/field_help.html' with field=form.effective_term.field %}
+        {% bootstrap_field form.effective_term layout='floating' field_class='text-bg-dark'|add:field_class_help wrapper_class='m-0' show_help=False %}
+    </div>
+</div>

@@ -1,0 +1,32 @@
+{% load core_extras %}
+{% if from_toc %}
+    <div class="btn-group">
+        {% define_if from_toc 'dark' 'secondary' as btn_color %}
+        {% define_if master_bond.visibility 'eye' 'eye-slash' as icon %}
+        {% if from_toc %}
+            {% define_if master_bond.visibility 'success' 'danger' as icon_color %}
+        {% else %}
+            {% define 'light' as icon_color %}
+        {% endif %}
+        {% has_perm_nor master_syllabus.locked as perm %}
+        {% include 'editor/helpers/buttons/dropdown_toggle.html' with auto_close='true' text='' text_css='' title='Manage Visibility' %}
+        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-lg">
+            <li><h6 class="dropdown-header">Manage Visibility</h6></li>
+            <li>
+                {% if master_bond.visibility %}
+                    {% include 'core/helpers/alert.html' with alert_css='m-0 rounded-0' icon='' text='<strong>VISIBLE</strong>: this segment (<strong>'|addstr:master_bond.segment|addstr:'</strong>) is visible to students.' text_css='' type='info' %}
+                {% else %}
+                    {% include 'core/helpers/alert.html' with alert_css='m-0 rounded-0' icon='' text='<strong>HIDDEN</strong>: this segment (<strong>'|addstr:master_bond.segment|addstr:'</strong>) is hidden from students.' text_css='' type='info' %}
+                {% endif %}
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                {% if master_bond.visibility %}
+                    {% include 'editor/helpers/buttons/dropdown_visibility.html' with icon='eye-slash' icon_color='danger' text='Hide' visibility=False %}
+                {% else %}
+                    {% include 'editor/helpers/buttons/dropdown_visibility.html' with icon='eye' icon_color='success' text='Show' visibility=True %}
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+{% endif %}

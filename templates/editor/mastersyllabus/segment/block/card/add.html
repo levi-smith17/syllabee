@@ -1,0 +1,29 @@
+{% load django_bootstrap5 core_extras editor_extras %}
+<div class="offcanvas-body p-0">
+    <form id="offcanvas-form" action="{{ add_url }}" method="post" enctype="multipart/form-data" autocomplete="off"
+          class="editor-form was-validated" data-model="{{ verbose_name }}" data-operation="created"
+          data-target="{{ target }}" data-callback="{{ callback }}">
+        {% csrf_token %}
+        <div class="row text-bg-dark-header border-bottom border-1 border-secondary m-0 p-4 d-grid d-lg-flex gap-3 gap-xl-0">
+            <div class="col-xl-6 p-0 pe-xl-3">
+                <div class="d-flex align-items-start flex-fill">
+                    <span class="text-start flex-fill">
+                        {% bootstrap_field form.name layout='floating' field_class='text-bg-dark' wrapper_class='m-0' show_help=False %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xl-3 p-0 pe-xl-3">
+                {% if 'print_heading' in form.fields %}
+                    <div class="flex-fill" title="{{ form.print_heading.help_text }}">{% bootstrap_field form.print_heading layout='floating' field_class='text-bg-dark' wrapper_class='m-0' show_help=False %}</div>
+                {% endif %}
+            </div>
+            <div class="col-xl-3 p-0 d-flex">
+                <div class="btn-group w-100">
+                    {% include 'core/buttons/form/submit.html' with color='warning w-100' icon='save' perm=change_perm text='Save' title='' %}
+                </div>
+            </div>
+        </div>
+        {% include 'core/helpers/alert.html' with alert_css='m-3' icon='info-square' text='Please provide a name for this block and click Save, then additional fields for this block will become available.' text_css='ps-3' type='info' %}
+    </form>
+</div>
+

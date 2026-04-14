@@ -1,0 +1,6 @@
+<button type="button" class="{{ control }}-btn btn btn-lg btn-{{ btn_color }} d-flex align-items-center"
+        title="{{ title }}" data-url="{{ url }}{% if next %}?next={{ next }}{% endif %}"
+        data-control="{{ control }}{% if full %}-full{% endif %}"
+        aria-controls="{{ control }}{% if full %}-full{% endif %}-generic"{% if not perm %} disabled{% endif %}>
+    {% include 'core/buttons/content.html' with size='1.5rem' %}
+</button>

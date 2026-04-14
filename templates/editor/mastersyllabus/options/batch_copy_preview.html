@@ -1,0 +1,26 @@
+<div class="col p-0 position-sticky top-0 z-100">
+    <div class="text-bg-dark-header border-bottom border-secondary d-grid d-md-flex align-items-center p-3 gap-3">
+        <h6 class="p-3 m-0 d-flex align-items-center w-100">
+            <span class="fs-4">Selected {{ collection|title }}</span>
+        </h6>
+        {% if option == 'batch' %}
+            <select class="form-select form-select-lg text-bg-dark border-warning" name="batch_option"
+                    aria-label="Batch Edit Options">
+                {% if collection == 'segments' %}
+                    <optgroup label="Edit Visibility">
+                        <option value="show" selected>Visible to Students</option>
+                        <option value="hide">Hidden from Students</option>
+                    </optgroup>
+                {% endif %}
+                <optgroup label="Unlink">
+                    <option value="unlink">Remove</option>
+                </optgroup>
+            </select>
+            {% include 'core/buttons/form/submit.html' with color='warning' icon='save' perm=True text='Save' title='Batch Edit Content' %}
+        {% else %}
+            {% include 'core/buttons/form/submit.html' with color='warning' icon='copy' perm=True text='Copy' title='Copy Content' %}
+        {% endif %}
+    </div>
+    <input type="hidden" id="batch-copy-selected" name="selected" value="">
+    <div id="batch-copy-preview-selected" class="p-3 d-none d-md-block"></div>
+</div>

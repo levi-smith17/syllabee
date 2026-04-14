@@ -1,0 +1,15 @@
+{% load core_extras editor_extras json_loaders %}
+{% if master_syllabus.interactive_view %}
+    <div class="btn-group">
+        {% if from_toc or master_section and not from_toc %}
+            {% define_if master_syllabus.locked ' rounded-end' '' as btn_color_additional %}
+            {% define_if from_toc 'dark'|addstr:btn_color_additional 'secondary rounded-0' as btn_color %}
+            {% if master_section %}
+                {% get_json_content 'progress' '{"master_syllabus_id": "'|addstr:master_syllabus.id|addstr:'", "section_id": "'|addstr:master_section.section.id|addstr:'"}' as json_content %}
+            {% else %}
+                {% define '' as json_content %}
+            {% endif %}
+            {% include 'core/buttons/load_regions.html' with icon='bar-chart-steps' icon_color='' json_stage=False json_profile=False json_toc=False json_title='' json_url=False perms=master_section post_icon=False text='' text_css='' title='Student Progress' size='1.5rem' %}
+        {% endif %}
+    </div>
+{% endif %}

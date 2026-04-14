@@ -1,0 +1,17 @@
+{% load core_extras %}
+<div id="{{ block_name|lower_snake }}" class="card shadow-lg border-0 rounded-0{% if not block_only %} h{{ bond.block.printableblock.print_heading }}-border-dark{% endif %}">
+    {% if not block_only %}
+        <h{{ bond.block.printableblock.print_heading }} class="card-header border-0 rounded-0 pt-5 px-5 text-bg-dark">
+            {{ block_name }}
+        </h{{ bond.block.printableblock.print_heading }}>
+    {% endif %}
+    <div class="card-body{% if block_only %} p-5{% else %} px-5 pb-5{% endif %} text-bg-dark">
+        {% if bond_list %}
+            {% for nested_bond in bond_list %}
+                {% include 'viewer/helpers/block.html' with bond=nested_bond render_mode='view' %}
+            {% endfor %}
+        {% else %}
+            {% include 'viewer/helpers/block.html' with render_mode='view' %}
+        {% endif %}
+    </div>
+</div>

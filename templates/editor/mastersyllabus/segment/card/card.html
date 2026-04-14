@@ -1,0 +1,23 @@
+{% load core_extras editor_extras json_loaders %}
+<div id="content-container-data" class="d-none" data-content-id="{% if segment %}{{ content_id }}{% else %}segment-add{% endif %}"
+     data-content-missing-json="{% get_json_content 'editor' '{"master_syllabus_id": "'|addstr:master_syllabus.id|addstr:'"}' %}"
+     data-content-lock-json="{% get_json_content 'lock' '' %}"
+     {% if segment %} data-content-json="{% get_json_content 'editor' '{"master_syllabus_id": "'|addstr:master_syllabus.id|addstr:'", "segment_id": "'|addstr:segment.id|addstr:'"}' %}"{% endif %}></div>
+{% if segment %}
+    {% include 'editor/mastersyllabus/segment/options/options.html' with from_toc=False %}
+    <div id="segment-{{ master_bond.segment.id }}" class="card border-0 rounded-0 text-bg-dark w-100">
+        <div>{% include 'editor/mastersyllabus/segment/card/messages.html' %}</div>
+        <div class="card-header p-0 border-0 mx-3 pt-3 rounded-0">
+            {% include 'editor/mastersyllabus/segment/card/header.html' %}
+        </div>
+        <div class="card-body text-bg-dark">
+            <div class="min-height-40r d-grid gap-3 align-content-start">
+                {% for bond in bonds %}
+                    {% include 'editor/mastersyllabus/segment/block/row.html' %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% else %}
+    {% include 'core/helpers/alert.html' with alert_css='m-3' icon='info-square' text_css='ps-3' text='There are no segments linked to this master syllabus yet! Use the Add (+) button within the Table of Contents to add a segment.' type='info' %}
+{% endif %}

@@ -1,0 +1,13 @@
+{% load core_extras editor_extras %}
+<div class="btn-group btn-group-lg d-flex flex-column m-0 text-bg-dark-header rounded-0">
+    <div class="btn-group flex-column m-0 dropend">
+        {% with edit_url='editor:block:response:'|add:question_type|add:':update' %}
+            {% url edit_url master_syllabus.id bond.segment.id bond.block.id question.id as url %}
+            {% include 'editor/helpers/buttons/offcanvas_modal.html' with btn_color='dark btn-darker border-0 p-2' control='offcanvas' full=False icon='pencil' icon_color='' next=False perm=True text='' text_css='' title='Edit Question' %}
+        {% endwith %}
+        {% with delete_url='editor:block:response:'|add:question_type|add:':delete' %}
+            {% url delete_url master_syllabus.id bond.segment.id bond.block.id question.id as url %}
+            {% include 'editor/helpers/buttons/offcanvas_modal.html' with btn_color='dark btn-darker border-0 p-2' control='modal' full=False icon='trash3' icon_color='danger' next=False perm=True text='' text_css='' title='Delete Question (Forever)' %}
+        {% endwith %}
+    </div>
+</div>

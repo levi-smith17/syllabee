@@ -1,0 +1,6 @@
+<div class="border border-1 border-secondary position-relative my-3">
+    <div class="btn-group position-absolute top-50 start-50 translate-middle z-100">
+        {% url 'editor:mastersyllabus:segment:create' master_syllabus.id segment_order as url %}
+        {% include 'editor/helpers/buttons/offcanvas_modal.html' with btn_color='secondary rounded-circle p-0' control='offcanvas' full=False icon='plus-lg' icon_color='' next=False perm=True text='' text_css='' title='Create New Segment' %}
+    </div>
+</div>

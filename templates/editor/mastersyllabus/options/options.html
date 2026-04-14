@@ -1,0 +1,17 @@
+{% load core_extras editor_extras %}
+<div class="btn-group btn-group-lg d-flex justify-content-end bg-{% if from_toc %}dark{% else %}warning rounded-0 position-sticky top-0 z-200 border-bottom border-dark{% endif %}"
+     role="group">
+    {% include 'editor/mastersyllabus/options/status.html' %}
+    {% include 'editor/mastersyllabus/options/progress.html' %}
+    {% if not master_syllabus.locked %}
+        <div class="btn-group">
+            {% define_if from_toc 'dark' 'warning' as btn_color %}
+            {% define_if from_toc 'light' 'dark' as icon_color %}
+            {% include 'editor/helpers/buttons/dropdown_toggle.html' with auto_close='true' icon='plus-lg' perm=True text='' text_css='' title='Add Segment' %}
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-lg">
+                {% include 'editor/mastersyllabus/options/add.html' with segment_order=0 %}
+            </ul>
+        </div>
+        {% include 'editor/mastersyllabus/options/manage.html' %}
+    {% endif %}
+</div>

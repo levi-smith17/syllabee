@@ -1,0 +1,14 @@
+{% load core_extras %}
+{% if render_mode == 'edit' %}
+    <div id="question-container" class="d-grid gap-3 min-height-20r">
+        {% if bond.block.responseblock.max_attempts > 0 %}
+            {% include 'core/helpers/alert.html' with alert_css='m-0' icon='info-square' text='The <strong>maximum number of attempts</strong> for this question pool has been set. This setting overrides the max attempts setting set on this master syllabus.<br>Students have a maximum of <strong>'|addstr:bond.block.responseblock.max_attempts|addstr:'</strong> attempts for this question pool.' text_css='ps-3' type='info' %}
+        {% endif %}
+        {% if bond.block.responseblock.max_points > 0 %}
+            {% include 'core/helpers/alert.html' with alert_css='m-0' icon='info-square' text='The <strong>maximum number of points</strong> for this question pool has been set. This setting overrides the max points setting set on this master syllabus.<br>Students can earn a maximum of <strong>'|addstr:bond.block.responseblock.max_points|addstr:'</strong> points for this question pool.' text_css='ps-3' type='info' %}
+        {% endif %}
+        {% include 'editor/mastersyllabus/segment/block/card/response/list.html' %}
+    </div>
+{% else %}
+    {% include 'core/helpers/alert.html' with alert_css='m-0' icon='exclamation-square' text='No preview available!' text_css='ps-3' type='warning' %}
+{% endif %}

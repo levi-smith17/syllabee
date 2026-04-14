@@ -1,0 +1,18 @@
+{% load core_extras editor_extras %}
+<div class="btn-group">
+    {% include 'editor/helpers/buttons/dropdown_toggle.html' with auto_close='true' btn_color='secondary rounded-0 max-width-md-12r' icon='' icon_color='' perm=True text=segment.name text_css='text-truncate' title='Quick Jump on this Segment ('|addstr:segment.name|addstr:')' %}
+    {% if bonds|length > 1 %}
+        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-lg">
+            {% for bond in bonds %}
+                <li>
+                    <button type="button" class="scroll-to btn btn-lg btn-dark dropdown-item d-flex align-items-center py-2 rounded-0"
+                            title="{{ bond.block.name }}" data-scroll-to="#segment-{{ bond.segment.id }}-block-{{ bond.block.id }}"
+                            data-scroll-offset="65">
+                        <span>{% include 'viewer/helpers/icon.html' with block=bond.block %}</span>
+                        {% include 'core/buttons/content.html' with icon='' text=bond.block.name text_css='ps-3' size='1.5rem' %}
+                    </button>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>

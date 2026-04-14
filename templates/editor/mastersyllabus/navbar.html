@@ -1,0 +1,20 @@
+{% load core_extras %}
+{% if user|has_group:'instructors' %}
+    <div class="btn-group dropend">
+        <button class="btn btn-dark btn-darker d-flex align-items-center justify-content-center border-0 h-4r w-4r"
+                type="button" title="Manage Master Syllabi" data-bs-toggle="dropdown" aria-expanded="false">
+            {% include 'core/helpers/icon.html' with icon='journals' size='2rem' %}
+        </button>
+        <ul class="dropdown-menu dropdown-menu-dark shadow-lg">
+            <li><h6 class="dropdown-header">Master Syllabi</h6></li>
+            <div id="master-syllabi" data-url="{% url 'editor:mastersyllabus:list' %}">
+                {% include 'editor/mastersyllabus/list.html' %}
+            </div>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                {% url 'editor:mastersyllabus:create' as url %}
+                {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=True icon='plus-lg' icon_color='' next=False text='Create Master Syllabus' title='Create Master Syllabus' %}
+            </li>
+        </ul>
+    </div>
+{% endif %}

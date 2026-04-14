@@ -1,0 +1,5 @@
+<button type="button" class="btn btn-{{ btn_color }} btn-lg d-flex align-items-center{% if text %} dropdown-toggle{% endif %}"
+        title="{{ title }}" data-bs-toggle="dropdown" data-bs-auto-close="{{ auto_close }}" aria-expanded="false"
+        {% if not perm %} disabled{% endif %}>
+    {% include 'core/buttons/content.html' with size='1.5rem' %}
+</button>

@@ -1,0 +1,35 @@
+{% load django_bootstrap5 core_extras %}
+<div class="offcanvas-body text-bg-dark">
+    <form action="{% url 'editor:masterbond:sections' master_syllabus_id master_bond.id %}" method="post"
+          class="editor-form was-validated" autocomplete="off" data-model="sections" data-operation="revised"
+          data-target="{{ target }}" data-callback="{{ callback }}" data-content-id="{{ content_id }}">
+        {% csrf_token %}
+        <div class="d-grid gap-2">
+            {{ formset.management_form }}
+            {% include 'core/helpers/alert.html' with alert_css='m-0' icon='info-square' text='<strong>NOTE</strong>: to add a section to this segment (<strong>'|add:master_bond.segment.name|add:'</strong>), simply complete the row below, and then click the Save button. To remove a section, simply click the red X next to it and then click Save. Multiple sections can be added or removed at a time. If additional rows are needed, simply click the Add Section button.' text_css='ps-3' type='info' %}
+            {% include 'core/helpers/alert.html' with alert_css='m-0' icon='exclamation-square' text='<strong>WARNING</strong>: Sections can only be removed using the red X (do not attempt to clear a section&#39;s value, as doing so is not supported).' text_css='ps-3' type='warning' %}
+            <ul class="d-grid gap-2 m-0 list-unstyled">
+                {% for form in formset %}
+                    {{ form.id }}
+                    <li class="form-row d-flex">
+                        {% bootstrap_field form.section layout='floating' field_class='border-0 border-start border-top border-bottom border-secondary rounded-0 rounded-start text-bg-dark' wrapper_class='' %}
+                        {% if formset.can_delete %}{% include 'core/modal/formset_delete.html' with prefix='form' %}{% endif %}
+                    </li>
+                {% endfor %}
+                <li>
+                    <button type="button" class="add-form-row btn btn-secondary btn-lg d-flex align-items-center w-100"
+                            data-prefix="form">
+                        {% include 'core/buttons/content.html' with icon='plus-lg' icon_color='' text='Add Section' text_css='fs-5 ps-3' size='1.5rem' %}
+                    </button>
+                </li>
+            </ul>
+            <script>
+                $(document).ready(function() {
+                    $(".form-row").find(":input:not([data-prefix])").each(function() { $(this).prop("required", true); });
+                });
+            </script>
+            <hr class="my-2">
+            {% include 'core/buttons/form/submit.html' with color='warning' icon='save' perm=True text='Save' title='' %}
+        </div>
+    </form>
+</div>
