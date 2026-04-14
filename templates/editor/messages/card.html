@@ -1,0 +1,23 @@
+{% load core_extras json_loaders %}
+<div id="content-container-data" class="d-none" data-content-id="{% if message %}{{ content_id }}{% else %}segment-add{% endif %}"
+     data-content-missing-json="{% get_json_content 'messages' '{"master_syllabus_id": "'|addstr:master_syllabus.id|addstr:'"}' %}"
+     data-content-lock-json="{% get_json_content 'lock' '' %}"
+     {% if message %} data-content-json="{% get_json_content 'messages' '{"master_syllabus_id": "'|addstr:master_syllabus.id|addstr:'", "message_id": "'|addstr:message.id|addstr:'"}' %}"{% endif %}></div>
+{% if message %}
+    {% include 'editor/messages/options.html' with from_toc=False %}
+    <div id="message-{{ message.id }}" class="card border-0 p-3 rounded-0 text-bg-dark">
+        <div class="card bg-dark shadow-lg border-0 mb-3 rounded-0">
+            <h2 class="card-header border-0 rounded-0 pt-5 px-5">{{ message.name }}</h2>
+            <div class="card-body px-5 pb-5">
+                <p>{{ message.description }}</p>
+            </div>
+        </div>
+        <div class="card bg-dark shadow-lg border-0 rounded-0 h3-border-dark">
+            <h3 class="card-header border-0 rounded-0 pt-5 px-5">{{ message.subject }}</h3>
+            <div class="card-body px-5 pb-5">
+                <textarea id="message-body" class="text-bg-dark p-3 w-100" rows="18" disabled>{{ message.body|safe }}</textarea>
+                <label for="message-body" class="d-none"></label>
+            </div>
+        </div>
+    </div>
+{% endif %}

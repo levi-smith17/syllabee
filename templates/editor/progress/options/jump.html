@@ -1,0 +1,22 @@
+{% load core_extras editor_extras json_loaders %}
+<div class="btn-group me-auto">
+    {% if section %}
+        {% include 'editor/helpers/buttons/dropdown_toggle.html' with auto_close='true' btn_color='secondary rounded-0 max-width-md-12r' icon='' icon_color='' perm=True text=section.course|addstr:' ('|addstr:section.section_code|addstr:')' text_css='text-truncate' title='Switch to Section' %}
+    {% else %}
+        {% include 'editor/helpers/buttons/dropdown_toggle.html' with auto_close='true' btn_color='secondary rounded-0 max-width-md-12r' icon='' icon_color='' perm=True text='Dashboard' text_css='text-truncate' title='Switch to Section' %}
+    {% endif %}
+    {% if master_bond_sections|length > 1 %}
+        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-lg">
+            <li>
+                {% get_json_content 'progress' '{"master_syllabus_id": "'|addstr:master_syllabus.id|addstr:'"}' as json_content %}
+                {% include 'core/buttons/load_regions.html' with btn_color='secondary dropdown-item rounded-0 py-2 w-100' icon='bar-chart-steps' icon_color='' json_stage=False json_profile=False json_toc=False json_title='' json_url=False perms=True post_icon=False text='Dashboard' text_css='ps-3' title='Student Progress' size='1.5rem' %}
+            </li>
+            {% for master_bond_section in master_bond_sections %}
+                <li>
+                    {% get_json_content 'progress' '{"master_syllabus_id": "'|addstr:master_syllabus.id|addstr:'", "section_id": "'|addstr:master_bond_section.section.id|addstr:'"}' as json_content %}
+                    {% include 'core/buttons/load_regions.html' with btn_color='secondary dropdown-item rounded-0 py-2 w-100' icon='bar-chart-steps' icon_color='' json_stage=False json_profile=False json_toc=False json_title='' json_url=False perms=True post_icon=False text=master_bond_section.section|addstr:' ('|addstr:master_bond_section.section.section_code|addstr:')' text_css='ps-3' title='Student Progress' size='1.5rem' %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>

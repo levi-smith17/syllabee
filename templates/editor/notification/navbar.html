@@ -1,0 +1,10 @@
+{% load core_extras json_loaders %}
+{% if user|has_group:'admins' or user|has_group:'instructors' %}
+    <div class="btn-group">
+        <button class="btn btn-dark btn-darker d-flex align-items-center justify-content-center border-0 h-4r w-4r"
+                type="button" title="Notifications" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-notifications"
+                aria-controls="offcanvas-notifications">
+            {% include 'core/helpers/icon.html' with icon='bell' size='2rem' %}
+        </button>
+    </div>
+{% endif %}

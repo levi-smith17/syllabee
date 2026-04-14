@@ -1,0 +1,26 @@
+{% load core_extras %}
+<div class="btn-group">
+    {% include 'editor/helpers/buttons/dropdown_toggle.html' with auto_close='true' btn_color='dark rounded' icon='' icon_color='' perm=True text=''|addstr:bond_progress.responseprogress.points text_css='' title='Points Detail' %}
+    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end px-2 shadow-lg">
+        <li>
+            <table class="table m-0 text-white">
+                <tbody>
+                <tr>
+                    <th class="border-0">Available</th>
+                    <td class="border-0 text-end">{{ bond_progress.responseprogress.points_available }}</td>
+                </tr>
+                <tr>
+                    <th class="border-0">Deductions</th>
+                    <td class="border-0 text-end">{{ bond_progress.responseprogress.deduction }}</td>
+                </tr>
+                </tbody>
+                <tfoot class="table-group-divider">
+                <tr>
+                    <th class="border-0">Earned</th>
+                    <td class="border-0 text-end">{{ bond_progress.responseprogress.points }}</td>
+                </tr>
+                </tfoot>
+            </table>
+        </li>
+    </ul>
+</div>

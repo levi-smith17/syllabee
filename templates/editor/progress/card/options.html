@@ -1,0 +1,15 @@
+<div class="btn-group">
+    {% include 'editor/helpers/buttons/dropdown_toggle.html' with auto_close='true' btn_color='dark rounded' icon='three-dots' icon_color='' perm=True text='' title='Manage Student Progress' %}
+    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-lg">
+        <li><h6 class="dropdown-header">Manage Student Progress</h6></li>
+        <li>
+            {% url 'editor:mastersyllabus:progress:details' master_syllabus.id section_progress.id as url %}
+            {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=True icon='bar-chart-steps' icon_color='' next=False text='Details' title='Student Progress Details' %}
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+            {% url 'editor:mastersyllabus:progress:reset' master_syllabus.id section.hash section_progress.student.id as url %}
+            {% include 'editor/helpers/buttons/dropdown.html' with control='modal' full=False icon='bootstrap-reboot' icon_color='danger' next=False text='Reset Progress' title='Reset Student Progress' %}
+        </li>
+    </ul>
+</div>

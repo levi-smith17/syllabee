@@ -1,0 +1,49 @@
+{% load core_extras %}
+{% include 'editor/progress/options/options.html' with from_toc=False %}
+<div id="section-{{ section.id }}" class="card border-0 p-3 rounded-0 text-bg-dark">
+    <div class="card bg-dark shadow-lg border-0 mb-3 rounded-0">
+        <h2 class="card-header border-0 rounded-0 p-5">Student Progress</h2>
+    </div>
+    <div class="card bg-dark shadow-lg border-0 rounded-0 h3-border-dark">
+        <h3 class="card-header border-0 rounded-0 pt-5 px-5">{{ section.course }} ({{ section.section_code }})</h3>
+        <div class="card-body">
+            <div class="container-fluid">
+                <table class="table table-dark table-striped table-hover">
+                    <thead>
+                    <tr class="d-none d-md-table-row">
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Time</th>
+                        <th>Progress</th>
+                        <th class="text-center">Points</th>
+                        <th class="text-center">Complete</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for section_progress in section_progresses %}
+                        <tr class="d-flex d-md-table-row flex-column">
+                            <td><span class="d-md-none"><strong>Name</strong>: </span>{{ section_progress.student }}</td>
+                            <td><span class="d-md-none"><strong>Role</strong>: </span>{{ section_progress.student.groups.all|stringify|title }}</td>
+                            <td><span class="d-md-none"><strong>Time</strong>: </span>{% include 'editor/progress/card/details/time.html' with object=section_progress %}</td>
+                            <td><span class="d-md-none"><strong>Progress</strong>: </span>{{ section_progress.progress }}%</td>
+                            <td class="text-md-center"><span class="d-md-none"><strong>Points</strong>: </span>{{ section_progress.points }}</td>
+                            <td class="text-md-center align-md-middle">
+                                <span class="d-md-none"><strong>Complete</strong>: </span>
+                                {% include 'core/helpers/yesno.html' with yes=section_progress.completed %}
+                            </td>
+                            <td class="text-end">{% include 'editor/progress/card/options.html' %}</td>
+                        </tr>
+                        {% if not forloop.last %}<tr class="d-md-none"><td class="p-0"><hr class="border border-2 m-0"></td></tr>{% endif %}
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="8">{{ section_progresses|length }} User{{ section_progresses|plural }}</td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

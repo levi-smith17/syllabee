@@ -1,0 +1,42 @@
+{% load core_extras editor_extras json_loaders %}
+{% include 'editor/progress/options/options.html' with from_toc=False %}
+<div id="progress-dashboard" class="card border-0 p-3 rounded-0 text-bg-dark">
+    <div class="card bg-dark shadow-lg border-0 mb-3 rounded-0">
+        <h2 class="card-header border-0 rounded-0 p-5">Student Progress</h2>
+    </div>
+    <div class="card bg-dark shadow-lg border-0 rounded-0 h3-border-dark">
+        <h3 class="card-header border-0 rounded-0 pt-5 px-5">Progress Dashboard</h3>
+        <div class="card-body">
+            <div class="container-fluid">
+                <table class="table table-dark table-striped table-hover">
+                    <thead>
+                    <tr class="d-none d-md-table-row">
+                        <th>Section</th>
+                        <th class="text-center">Enrolled</th>
+                        <th class="text-center">Completed</th>
+                        <th class="text-center">Average Completion Time</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for master_bond_section in master_bond_sections %}
+                        <tr class="d-flex d-md-table-row flex-column">
+                            <td><span class="d-md-none"><strong>Section</strong>: </span>
+                                {% get_json_content 'progress' '{"master_syllabus_id": "'|addstr:master_syllabus.id|addstr:'", "section_id": "'|addstr:master_bond_section.section.id|addstr:'"}' as json_content %}
+                                {% include 'core/buttons/load_regions.html' with btn_color='dark w-100' icon='bar-chart-steps' icon_color='' json_stage=False json_profile=False json_toc=False json_title='' json_url=False perms=True post_icon=False text=master_bond_section.section|addstr:' ('|addstr:master_bond_section.section.section_code|addstr:')' text_css='ps-3' title='Student Progress' size='1.5rem' %}
+                            </td>
+                            <td class="text-center align-middle"><span class="d-md-none"><strong>Enrolled</strong>: </span>{% get_total_students 'enrolled' master_bond_section.section %}</td>
+                            <td class="text-center align-middle"><span class="d-md-none"><strong>Completed</strong>: </span>{% get_total_students 'completed' master_bond_section.section %}</td>
+                            <td class="text-center align-middle"><span class="d-md-none"><strong>Average Completion Time</strong>: </span>{% get_average_completion_time master_bond_section.section %}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="8">{{ master_bond_sections|length }} Section{{ master_bond_sections|plural }}</td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+<div class="btn-group dropend">
+    <button class="btn btn-dark btn-darker d-flex align-items-center justify-content-center border-0 h-4r w-4r"
+            type="button" title="Quick Links" data-bs-toggle="dropdown" aria-expanded="false">
+        {% include 'core/helpers/icon.html' with icon='bookmarks' size='2rem' %}
+    </button>
+    <div class="dropdown-menu dropdown-menu-dark shadow-lg">
+        <div id="quick-links" class="d-md-flex">
+            {% include 'editor/quicklinks/list.html' %}
+        </div>
+    </div>
+</div>

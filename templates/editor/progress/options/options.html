@@ -1,0 +1,24 @@
+{% load core_extras json_loaders %}
+<div class="btn-group btn-group-lg d-flex align-items-center justify-content-between text-bg-secondary rounded-0 position-sticky top-0 z-200 border-bottom border-dark" role="group">
+    {% if not from_toc %}
+        <div class="btn-group">
+            {% if section %}
+                {% get_json_content 'progress' '{"master_syllabus_id": "'|addstr:master_syllabus.id|addstr:'", "section_id": "'|addstr:section.id|addstr:'"}' as json_content %}
+            {% else %}
+                {% get_json_content 'progress' '{"master_syllabus_id": "'|addstr:master_syllabus.id|addstr:'"}' as json_content %}
+            {% endif %}
+            {% include 'core/buttons/load_regions.html' with btn_color='secondary rounded-0' icon='arrow-clockwise' icon_color='' json_stage=False json_profile=False json_toc=False json_title=False json_url=False perms=True post_icon=False text='' text_css='' title='Reload' size='1.5rem' %}
+        </div>
+        {% include 'editor/progress/options/jump.html' %}
+    {% endif %}
+    {% if section %}
+        <div class="btn-group">
+            {% include 'editor/mastersyllabus/segment/options/preview.html' %}
+            {% if not from_toc %}
+                {% get_json_content 'editor' '{"master_syllabus_id": "'|addstr:master_syllabus.id|addstr:'", "segment_id": "'|addstr:master_bond.segment.id|addstr:'"}' as json_content %}
+                {% get_json_toc 'editor' '{"master_syllabus_id": "'|addstr:master_syllabus.id|addstr:'", "segment_id": "'|addstr:master_bond.segment.id|addstr:'"}' as json_toc %}
+                {% include 'core/buttons/load_regions.html' with btn_color='secondary rounded-0' icon='pencil' icon_color='' json_stage=False json_profile=False json_title='' json_url=False perms=True post_icon=False text='' text_css='' title='Editor View' size='1.5rem' %}
+            {% endif %}
+        </div>
+    {% endif %}
+</div>

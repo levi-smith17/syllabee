@@ -1,0 +1,33 @@
+{% load core_extras json_loaders %}
+<div class="btn-group btn-group-lg d-flex justify-content-between text-bg-{% if from_toc %}dark{% else %}secondary position-sticky rounded-0 top-14px z-25{% endif %}">
+    {% if not from_toc %}
+        <div class="btn-group">
+            {% get_json_content 'messages' '{"master_syllabus_id": "'|addstr:master_syllabus.id|addstr:'", "message_id": "'|addstr:message.id|addstr:'"}' as json_content %}
+            {% get_json_toc 'messages' '{"master_syllabus_id": "'|addstr:master_syllabus.id|addstr:'", "message_id": "'|addstr:message.id|addstr:'"}' as json_toc %}
+            {% include 'core/buttons/load_regions.html' with btn_color='secondary rounded-0' icon='arrow-clockwise' icon_color='' json_stage=False json_profile=False json_title=False json_url=False perms=True post_icon=False text='' text_css='' title='Reload' size='1.5rem' %}
+        </div>
+    {% endif %}
+    <div class="btn-group">
+        <div class="btn-group">
+            <a href="mailto:?subject={{ message.subject|urlencode }}&body={{ message.body|urlencode }}"
+               class="btn btn-lg btn-{% if from_toc %}dark {% else %}secondary rounded-0{% endif %} d-flex align-items-center"
+               title="Send Message (Using Local Email Client)">
+                {% include 'core/buttons/content.html' with icon='send' icon_color='' text='' text_css='' size='1.5rem' %}
+            </a>
+        </div>
+        {% define_if from_toc 'dark rounded-end' 'secondary rounded-0' as btn_color %}
+        {% include 'editor/helpers/buttons/dropdown_toggle.html' with auto_close='true' icon='three-dots' icon_color='' perm=True text='' text_css='' title='Manage Message' %}
+        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-lg">
+            <li><h6 class="dropdown-header">Manage Message</h6></li>
+            <li>
+                {% url 'editor:mastersyllabus:message:update' master_syllabus.id message.id as url %}
+                {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=True icon='pencil' icon_color='' next=False text='Edit' title='Edit Message' %}
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                {% url 'editor:mastersyllabus:message:delete' master_syllabus.id message.id as url %}
+                {% include 'editor/helpers/buttons/dropdown.html' with control='modal' full=False icon='trash3' icon_color='danger' next=False text='Delete (Forever)' title='Delete Message (Forever)' %}
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+{% load core_extras viewer_extras %}
+{% if object.start_time %}
+    <div class="btn-group w-100">
+        {% if object.stop_time %}
+            {% date_difference object.start_time object.stop_time as total_time %}
+        {% else %}
+            {% define 'In Progress' as total_time %}
+        {% endif %}
+        {% include 'editor/helpers/buttons/dropdown_toggle.html' with auto_close='true' btn_color='dark rounded' icon='' icon_color='' perm=True text=total_time text_css='' title='Points Detail' %}
+        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end px-2 shadow-lg">
+            <li>
+                <table class="table m-0 text-white">
+                    <tbody>
+                    <tr>
+                        <th class="border-0">Start Time</th>
+                        <td class="border-0 text-end">{{ object.start_time|date:'N d, Y h:i:s A' }}</td>
+                    </tr>
+                    <tr>
+                        <th class="border-0">Stop Time</th>
+                        <td class="border-0 text-end">{% if object.stop_time %}{{ object.stop_time|date:'N d, Y h:i:s A' }}{% else %}N/a{% endif %}</td>
+                    </tr>
+                    </tbody>
+                    <tfoot class="table-group-divider">
+                    <tr>
+                        <th class="border-0">Total Time</th>
+                        {% if object.stop_time %}{% date_difference_total object.start_time object.stop_time as total_time %}{% endif %}
+                        <td class="border-0 text-end">{{ total_time|safe }}</td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </li>
+        </ul>
+    </div>
+{% else %}-{% endif %}

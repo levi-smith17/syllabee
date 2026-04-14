@@ -1,0 +1,104 @@
+{% load core_extras %}
+<li>
+    <p class="fw-bold{% if not print %} d-flex align-items-center px-2 text-white{% endif %}">
+        {% if not print %}
+            {% if user == instructor.user %}
+                <button type="button" class="offcanvas-btn bg-transparent border-0 p-0"
+                        title="Hi, {{ user.first_name }}!" data-url="{% url 'editor:profile:update' user.id %}"
+                        data-control="offcanvas" aria-controls="offcanvas-generic">
+                    {% if instructor.picture %}
+                        <img src="{{ MEDIA_URL }}{{ instructor.picture }}" class="profile-picture border-secondary" alt="Profile Picture" />
+                    {% else %}
+                        <span class="text-light">{% include 'core/helpers/icon.html' with icon='person-circle' size='2rem' %}</span>
+                    {% endif %}
+                </button>
+            {% elif instructor.picture %}
+                <img src="{{ MEDIA_URL }}{{ instructor.picture }}" class="profile-picture border-secondary"
+                     alt="Instructor Profile Picture" />
+            {% else %}
+                {% include 'core/helpers/icon.html' with icon='person-circle' size='2.5rem' %}
+            {% endif %}
+        {% endif %}
+        <span class="fs-5{% if not print %} ps-3{% endif %}">{{ instructor.user.first_name }} {{ instructor.user.last_name }}</span>
+    </p>
+</li>
+{% if instructor.title %}
+    <li>
+        <p class="{% if not print %}px-2 mb-2 text-white{% endif %}">{{ instructor.title }}</p>
+    </li>
+{% endif %}
+<li class="d-flex">
+    <p class="{% if not print %}px-2 mb-2 text-white{% endif %}">
+        {% get_office_hours instructor as office_hours %}
+        <strong>Office Hours</strong>: {% if office_hours %}{{ office_hours|safe }}{% else %}<span class="fw-bold text-danger">NONE PROVIDED</span>{% endif %}
+    </p>
+</li>
+{% if instructor.office_location %}
+    <li>
+        <a href="{% if not print and instructor.office_coordinates %}https://maps.google.com/maps?q={{ instructor.office_coordinates }}{% else %}#{% endif %}"
+                {% if instructor.office_coordinates %} target="_blank"{% endif %}
+           class="{% if not print %}btn btn-dark {% endif %}text-start d-flex align-items-center" title="Office Location">
+            {% include 'core/buttons/content.html' with icon='geo-alt' icon_color='' text=instructor.office_location text_css='ps-3' size='1.5rem' %}
+        </a>
+    </li>
+{% endif %}
+<li>
+    <a href="mailto:{% if instructor.user.email %}{{ instructor.user.email }}{% else %}{{ instructor.email }}{% endif %}"
+       class="{% if not print %}btn btn-dark {% endif %}text-start d-flex align-items-center" title="Email Address">
+        {% if instructor.user.email %}
+            {% include 'core/buttons/content.html' with icon='envelope' icon_color='' text=instructor.user.email text_css='ps-3' size='1.5rem' %}
+        {% else %}
+            {% include 'core/buttons/content.html' with icon='envelope' icon_color='' text=instructor.email text_css='ps-3' size='1.5rem' %}
+        {% endif %}
+    </a>
+</li>
+{% if instructor.office_phone %}
+    <li>
+        <a href="tel:+1{{ instructor.office_phone|format_phone }}" class="{% if not print %}btn btn-dark {% endif %}text-start d-flex align-items-center"
+           title="Office Phone">
+            {% include 'core/buttons/content.html' with icon='telephone' icon_color='' text=instructor.office_phone text_css='ps-3' size='1.5rem' %}
+        </a>
+    </li>
+{% endif %}
+{% if instructor.cell_phone %}
+    <li>
+        <a href="tel:+1{{ instructor.cell_phone|format_phone }}" class="{% if not print %}btn btn-dark {% endif %}text-start d-flex align-items-center"
+           title="Cell Phone">
+            {% include 'core/buttons/content.html' with icon='chat' icon_color='' text=instructor.cell_phone text_css='ps-3' size='1.5rem' %}
+        </a>
+    </li>
+{% endif %}
+{% if show_all %}
+    {% if instructor.website %}
+        <li>
+            <a href="{{ instructor.website }}" target="_blank" class="{% if not print %}btn btn-dark {% endif %}text-start d-flex align-items-center"
+               title="Website">
+                {% include 'core/buttons/content.html' with icon='globe' icon_color='' text='Website' text_css='ps-3' size='1.5rem' %}
+            </a>
+        </li>
+    {% endif %}
+    {% if instructor.facebook %}
+        <li>
+            <a href="{{ instructor.facebook }}" target="_blank" class="{% if not print %}btn btn-dark {% endif %}text-start d-flex align-items-center"
+               title="Facebook">
+                {% include 'core/buttons/content.html' with icon='facebook' icon_color='' text='Facebook' text_css='ps-3' size='1.5rem' %}
+            </a>
+        </li>
+    {% endif %}
+    {% if instructor.twitter %}
+        <li>
+            <a href="{{ instructor.twitter }}" target="_blank" class="{% if not print %}btn btn-dark {% endif %}text-start d-flex align-items-center"
+               title="Twitter">
+                {% include 'core/buttons/content.html' with icon='twitter' icon_color='' text='Twitter' text_css='ps-3' size='1.5rem' %}
+            </a>
+        </li>
+    {% endif %}
+    {% if instructor.youtube %}
+        <li>
+            <a href="{{ instructor.youtube }}" target="_blank" class="{% if not print %}btn btn-dark {% endif %}text-start d-flex align-items-center"
+               title="YouTube">
+                {% include 'core/buttons/content.html' with icon='youtube' icon_color='' text='YouTube' text_css='ps-3' size='1.5rem' %}
+            </a>
+        </li>
+    {% endif %}
+{% endif %}

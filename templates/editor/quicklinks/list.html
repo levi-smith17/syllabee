@@ -1,0 +1,62 @@
+{% load core_extras %}
+<ul class="list-unstyled">
+    <li><h6 class="dropdown-header">General Quick Links</h6></li>
+    {% for quicklink in quicklinks %}
+        <li class="d-flex">
+            <a href="{{ quicklink.link }}" class="dropdown-item btn btn-dark flex-fill w-auto py-2 rounded-0" target="{{ quicklink.target }}">
+                {{ quicklink.name }}
+            </a>
+            {% if perms.core.change_quicklink %}
+                <button type="button" class="offcanvas-btn btn btn-dark dropdown-item d-flex align-items-center w-auto py-2 rounded-0"
+                        title="Edit Quick Link" data-url="{% url 'editor:quicklink:update' quicklink.id %}"
+                        data-control="offcanvas" aria-controls="offcanvas-generic">
+                    {% include 'core/buttons/content.html' with icon='pencil' icon_color='' text='' text_css='' size='1.5rem' %}
+                </button>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li class="my-2">
+            <div class="alert alert-info m-0 py-1 rounded-0" role="alert">
+                No <strong>General Quick Links</strong> have been added yet. Please use the button below to add a
+                <strong>Quick Link</strong>.
+            </div>
+        </li>
+    {% endfor %}
+    <li><hr class="dropdown-divider d-md-none bg-dark"></li>
+</ul>
+<div class="vr d-none d-md-block bg-dark opacity-100"></div>
+{% if user|has_group:'admins' or user|has_group:'instructors' %}
+    <ul class="list-unstyled">
+        <li><h6 class="dropdown-header">Instructor Quick Links</h6></li>
+        {% for quicklink in restricted_quicklinks %}
+            <li class="d-flex">
+                <a href="{{ quicklink.link }}" class="dropdown-item btn btn-dark flex-fill w-auto py-2 rounded-0" target="{{ quicklink.target }}">
+                    {{ quicklink.name }}
+                </a>
+                {% if perms.core.change_quicklink %}
+                    <button type="button" class="offcanvas-btn btn btn-dark dropdown-item d-flex align-items-center w-auto py-2 rounded-0"
+                            title="Edit Quick Link" data-url="{% url 'editor:quicklink:update' quicklink.id %}"
+                            data-control="offcanvas" aria-controls="offcanvas-generic">
+                        {% include 'core/buttons/content.html' with icon='pencil' icon_color='' text='' text_css='' size='1.5rem' %}
+                    </button>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li class="my-2">
+                <div class="alert alert-info m-0 py-1 rounded-0" role="alert">
+                    No <strong>Instructor Quick Links</strong> have been added yet. Please use the button below to add a
+                    <strong>Quick Link</strong>.
+                </div>
+            </li>
+        {% endfor %}
+        {% if perms.core.add_quicklink %}
+            <li><hr class="dropdown-divider bg-dark"></li>
+            <li>
+                <button type="button" class="offcanvas-btn btn btn-dark dropdown-item d-flex align-items-center py-2 rounded-0" title="Add Quick Link"
+                        data-url="{% url 'editor:quicklink:create' %}" data-control="offcanvas" aria-controls="offcanvas-generic">
+                    {% include 'core/buttons/content.html' with icon='plus-lg' icon_color='' text='Add Quick Link' text_css='ps-3' size='1.5rem' %}
+                </button>
+            </li>
+        {% endif %}
+    </ul>
+{% endif %}

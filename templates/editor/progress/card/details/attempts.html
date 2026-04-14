@@ -1,0 +1,5 @@
+{% load core_extras %}
+<div class="btn-group">
+    {% url 'editor:mastersyllabus:progress:attempts' master_syllabus.id bond_progress.id as url %}
+    {% include 'editor/helpers/buttons/offcanvas_modal.html' with btn_color='dark' control='offcanvas' full=False icon='' icon_color='' next=False perm=True text=''|addstr:bond_progress.responseprogress.attempts text_css='' title='View Attempt(s)' %}
+</div>
