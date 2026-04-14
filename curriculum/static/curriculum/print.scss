@@ -1,0 +1,42 @@
+@page {
+  size: 8.5in 11in portrait;
+  margin: 0 0.5in;
+}
+
+* {
+  border-color: black !important;
+  color: black;
+  font-family: 'Times New Roman', serif;
+}
+
+p {
+  margin-top: 0.3in;
+  font-size: 11pt;
+  line-height: 1;
+}
+table {
+  border-collapse: collapse;
+  page-break-inside: avoid;
+}
+table thead, table tr {
+  page-break-inside: avoid;
+}
+table th,
+table td {
+  border-color: rgb(0, 0, 0);
+}
+.table { display: table !important; }
+.table.curriculum th,
+.table.curriculum td {
+  font-size: 11pt;
+  line-height: 1;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.table.curriculum th,
+.table.curriculum td {
+  padding-top: 0.02in !important;
+}
+.table.curriculum > tfoot > tr.footnote > td {
+  font-size: 8pt;
+}
