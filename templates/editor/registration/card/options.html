@@ -1,0 +1,47 @@
+{% load core_extras json_loaders %}
+<div class="btn-group btn-group-lg d-flex justify-content-between bg-secondary rounded-0 position-sticky top-0 z-25"
+     role="group">
+    <div class="btn-group">
+        {% get_json_content 'admin' '{"model": "'|addstr:model|addstr:'"}' as json_content %}
+        {% get_json_toc 'admin' '{"model": "'|addstr:model|addstr:'"}' as json_toc %}
+        {% include 'core/buttons/load_regions.html' with btn_color='secondary rounded-0' icon='arrow-clockwise' icon_color='' json_stage=False json_profile=False json_title='Administration' json_url=False perms=True post_icon=False text='' text_css='' title='Reload' size='1.5rem' %}
+        {% with first_url='editor:registration:'|add:model|add:':pagination' %}
+            {% url first_url 'first' as url %}
+            {% define_if limit_start|addstr:' == 0' False True as perm %}
+            {% include 'core/buttons/load.html' with btn_color='secondary border-0' icon='chevron-double-left' target='#content-container' title='First Page' %}
+        {% endwith %}
+        {% with prev_url='editor:registration:'|add:model|add:':pagination' %}
+            {% url prev_url 'previous' as url %}
+            {% define_if limit_start|addstr:' == 0' False True as perm %}
+            {% include 'core/buttons/load.html' with btn_color='secondary border-0' icon='chevron-left' target='#content-container' title='Previous Page' %}
+        {% endwith %}
+    </div>
+    <div class="btn-group">
+        {% if add_perm %}
+            {% with add_url='editor:registration:'|add:model|add:':create' %}
+                <button type="button" class="offcanvas-btn btn btn-lg btn-secondary d-flex align-items-center rounded-0"
+                        title="Add {{ verbose_name|title }}" data-url="{% url add_url %}" data-control="offcanvas"
+                        aria-controls="offcanvas-generic">
+                    {% include 'core/buttons/content.html' with icon='plus-lg' icon_color='' text='' text_css='' size='1.5rem' %}
+                </button>
+            {% endwith %}
+        {% endif %}
+        {% with search_url='editor:registration:'|add:model|add:':search' %}
+            {% include 'core/helpers/search.html' %}
+        {% endwith %}
+        {% if filterable %}
+            {% with filter_url='editor:registration:'|add:model|add:':filter' %}
+                <button type="button" class="filter-offcanvas btn btn-lg btn-secondary d-flex align-items-center"
+                        title="Filter {{ verbose_name_plural|title }}" data-url="{% url filter_url %}"
+                        aria-controls="offcanvas-generic">
+                    {% include 'core/buttons/content.html' with icon='filter' icon_color='' text='' text_css='' size='1.5rem' %}
+                </button>
+            {% endwith %}
+        {% endif %}
+        {% with next_url='editor:registration:'|add:model|add:':pagination' %}
+            {% url next_url 'next' as url %}
+            {% define_if limit_end|addstr:' >= '|addstr:count False True as perm %}
+            {% include 'core/buttons/load.html' with btn_color='secondary border-0 rounded-0' icon='chevron-right' target='#content-container' title='Next Page' %}
+        {% endwith %}
+    </div>
+</div>

@@ -1,0 +1,10 @@
+{% load editor_extras %}
+<tr class="d-flex d-md-table-row flex-column">
+    <td><span class="d-md-none"><strong>Name</strong>: </span>{{ item.name }}</td>
+    <td><span class="d-md-none"><strong>Class Ratio</strong>: </span>{{ item.class_ratio }}</td>
+    <td><span class="d-md-none"><strong>Lab Ratio</strong>: </span>{{ item.lab_ratio }}</td>
+    {% if perms.editor.change_courseratio %}
+        {% include 'editor/registration/card/body/options.html' with perm=True %}
+    {% endif %}
+</tr>
+{% if not forloop.last %}<tr class="d-md-none"><td class="p-0"><hr class="border border-2 m-0"></td></tr>{% endif %}

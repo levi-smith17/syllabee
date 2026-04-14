@@ -1,0 +1,37 @@
+{% load core_extras %}
+<td class="text-end align-middle">
+    <div class="btn-group btn-group-lg">
+        {% include 'editor/helpers/buttons/dropdown_toggle.html' with auto_close='true' btn_color='dark rounded' icon='three-dots' icon_color='' perm=True text='' text_css='' title='Manage '|add:verbose_name|title %}
+        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-lg">
+            <li><h6 class="dropdown-header">Manage {{ verbose_name|title }}</h6></li>
+            {% if model == 'term' %}
+                <li>
+                    {% define_if item.archived 'archive-fill' 'archive' as icon %}
+                    {% define_if item.archived 'Unarchive' 'Archive' as text %}
+                    {% define_if item.archived 'Unarchive Term' 'Archive Term' as title %}
+                    {% url 'editor:registration:term:archive' item.id as url %}
+                    {% include 'editor/helpers/buttons/dropdown.html' with control='modal' full=False icon_color='' next=False %}
+                </li>
+            {% endif %}
+            <li>
+                {% with update_url='editor:registration:'|add:model|add:':update' %}
+                    {% url update_url item.id as url %}
+                    {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=False icon='pencil' icon_color='' next=False text='Edit' title='Edit '|add:verbose_name|title %}
+                {% endwith %}
+            </li>
+            {% if model == 'course' %}
+                <li>
+                    {% url 'editor:registration:course:block:detail' item.id as url %}
+                    {% include 'editor/helpers/buttons/dropdown.html' with control='offcanvas' full=True icon='book' icon_color='' next=False text='Requisites' title='Edit Course Requisites' %}
+                </li>
+            {% endif %}
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                {% with delete_url='editor:registration:'|add:model|add:':delete' %}
+                    {% url delete_url item.id as url %}
+                    {% include 'editor/helpers/buttons/dropdown.html' with control='modal' full=False icon='trash3' icon_color='danger' next=False text='Delete (Forever)' title='Delete '|add:verbose_name|title|add:' (Forever)' %}
+                {% endwith %}
+            </li>
+        </ul>
+    </div>
+</td>

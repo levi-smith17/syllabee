@@ -1,0 +1,10 @@
+<tr class="d-none d-md-table-row">
+    <th>Course</th>
+    <th>Section Code</th>
+    <th>Term Code</th>
+    <th>Instructor</th>
+    <th>Format</th>
+    {% if perms.editor.change_section %}
+        <th class="m-0 p-0">&nbsp;</th>
+    {% endif %}
+</tr>

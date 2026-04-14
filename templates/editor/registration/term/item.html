@@ -1,0 +1,19 @@
+{% load core_extras %}
+<tr class="d-flex d-md-table-row flex-column{% if item.archived %} text-warning{% endif %}">
+    <td><span class="d-md-none"><strong>Term Code</strong>: </span>{{ item.term_code }}</td>
+    <td><span class="d-md-none"><strong>Name</strong>: </span>{{ item.name }}</td>
+    <td><span class="d-md-none"><strong>Length</strong>: </span>{{ item.length }}</td>
+    <td><span class="d-md-none"><strong>Start Date</strong>: </span>{{ item.start_date }}</td>
+    <td><span class="d-md-none"><strong>End Date</strong>: </span>{{ item.end_date }}</td>
+    <td class="text-md-center align-md-middle"><span class="d-md-none"><strong>Has Midpoint Break</strong>: </span>
+        {% include 'core/helpers/yesno.html' with yes=item.has_midpoint_break %}
+    </td>
+    <td class="text-md-center align-md-middle"><span class="d-md-none"><strong>Supports Master Syllabi</strong>: </span>
+        {% include 'core/helpers/yesno.html' with yes=item.supports_master_syllabi %}
+    </td>
+    {% if perms.editor.change_term %}
+        {% include 'editor/registration/card/body/options.html' with perm=item.archived|negate %}
+    {% endif %}
+    </td>
+</tr>
+{% if not forloop.last %}<tr class="d-md-none"><td class="p-0"><hr class="border border-2 m-0"></td></tr>{% endif %}

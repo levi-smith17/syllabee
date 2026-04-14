@@ -1,0 +1,53 @@
+{% load editor_extras %}
+<div class="btn-group btn-group-lg d-flex justify-content-between text-bg-secondary rounded-0">
+    <div class="p-2 ps-3">{{ course.course_code }} - {{ course.name }}</div>
+    <div class="btn-group btn-group-lg d-flex justify-content-end bg-dark" role="group">
+        <div class="btn-group">
+            {% url 'editor:registration:course:block:create' course.id as url %}
+            {% include 'editor/helpers/buttons/offcanvas_modal.html' with btn_color='secondary rounded-0' control='offcanvas' full=False icon='plus-lg' icon_color='light' next=False perm=True text='' text_css='' title='Create Requisite Block' %}
+        </div>
+    </div>
+</div>
+<div class="p-3">
+    <table class="table table-dark table-bordered table-hover">
+        <tbody>
+        {% for requisite_block in requisite_blocks %}
+            <tr>
+                <th colspan="{% if forloop.first %}4{% else %}3{% endif %}" class="align-middle">Requisite Block {{ forloop.counter }}</th>
+                {% if not forloop.first %}<td class="text-center align-middle fw-bold">{{ requisite_block.operator }}</td>{% endif %}
+                <td class="text-center align-middle">
+                    <div class="btn-group">
+                        {% url 'editor:registration:course:block:requisite:create' course.id requisite_block.id as url %}
+                        {% include 'curriculum/helpers/buttons/offcanvas_modal.html' with btn_color='warning' control='offcanvas' full=False icon='plus-lg' icon_color='' next=False perm=True text='' text_css='' title='Add Requisite' %}
+                    </div>
+                    <div class="btn-group">
+                        {% url 'editor:registration:course:block:update' course.id requisite_block.id as url %}
+                        {% include 'curriculum/helpers/buttons/offcanvas_modal.html' with btn_color='warning' control='offcanvas' full=False icon='pencil' icon_color='' next=False perm=True text='' text_css='' title='Edit Requisite Block' %}
+                    </div>
+                </td>
+            </tr>
+            {% get_requisites_by_block requisite_block as requisites %}
+            {% for requisite in requisites %}
+                {% if requisite_block.id == requisite.requisite_block.id %}
+                    <tr>
+                        <td class="w-4r">&nbsp;</td>
+                        <td class="align-middle">{{ requisite.requisite_course }}</td>
+                        <td colspan="{% if forloop.first %}2{% else %}1{% endif %}" class="align-middle">{% if requisite.requisite_type %}Prerequisite{% else %}Co-requisite{% endif %}</td>
+                        {% if not forloop.first %}<td class="text-center align-middle">{{ requisite.operator }}</td>{% endif %}
+                        <td class="text-center align-middle">
+                            <div class="btn-group">
+                                {% url 'editor:registration:course:block:requisite:update' course.id requisite_block.id requisite.id as url %}
+                                {% include 'curriculum/helpers/buttons/offcanvas_modal.html' with btn_color='warning' control='offcanvas' full=False icon='pencil' icon_color='' next=False perm=True text='' text_css='' title='Edit Requisite' %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% empty %}
+                <tr><td colspan="5">{% include 'core/helpers/alert.html' with alert_css='m-0' icon='info-square' text_css='ps-3' text='No requisites here! Use the Add (+) button above to create a requisite.' type='info' %}</td></tr>
+            {% endfor %}
+        {% empty %}
+            <tr><td>{% include 'core/helpers/alert.html' with alert_css='m-0' icon='info-square' text_css='ps-3' text='No requisite blocks here! Use the Add (+) button above to create a requisite block.' type='info' %}</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

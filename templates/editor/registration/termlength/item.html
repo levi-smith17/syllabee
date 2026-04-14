@@ -1,0 +1,11 @@
+<tr class="d-flex d-md-table-row flex-column">
+    <td><span class="d-md-none"><strong>Name</strong>: </span>{{ item.name }}</td>
+    <td><span class="d-md-none"><strong>Num Weeks</strong>: </span>{{ item.num_weeks }}</td>
+    <td class="text-md-center align-md-middle"><span class="d-md-none"><strong>Can Have Midpoint Break</strong>: </span>
+        {% include 'core/helpers/yesno.html' with yes=item.can_have_midpoint_break %}
+    </td>
+    {% if perms.editor.change_termlength %}
+        {% include 'editor/registration/card/body/options.html' with perm=True %}
+    {% endif %}
+</tr>
+{% if not forloop.last %}<tr class="d-md-none"><td class="p-0"><hr class="border border-2 m-0"></td></tr>{% endif %}

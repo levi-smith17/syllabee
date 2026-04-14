@@ -1,0 +1,15 @@
+{% include 'editor/registration/card/options.html' with from_toc=False %}
+<div class="p-3 text-bg-dark">
+    <div class="card rounded-0 border-0 shadow-lg w-100">
+        <div class="card-header border-0 p-0 rounded-0">
+            <div class="text-bg-dark-header m-0 p-4">
+                <h2 class="m-0 text-truncate">
+                    {{ verbose_name_plural|title }}
+                </h2>
+            </div>
+        </div>
+        <div id="card-body-{{ module }}-{{ model }}">
+            {% include 'editor/registration/card/body/body.html' %}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+<tr class="d-flex d-md-table-row flex-column">
+    <td><span class="d-md-none"><strong>Course</strong>: </span>{{ item.course }}</td>
+    <td><span class="d-md-none"><strong>Section Code</strong>: </span>{{ item.section_code }}</td>
+    <td><span class="d-md-none"><strong>Term Code</strong>: </span>{{ item.term }}</td>
+    <td><span class="d-md-none"><strong>Instructor</strong>: </span>{{ item.instructor }}</td>
+    <td><span class="d-md-none"><strong>Format</strong>: </span>{{ item.format }}</td>
+    {% if perms.editor.change_section %}
+        {% include 'editor/registration/card/body/options.html' with perm=True %}
+    {% endif %}
+</tr>
+{% if not forloop.last %}<tr class="d-md-none"><td class="p-0"><hr class="border border-2 m-0"></td></tr>{% endif %}

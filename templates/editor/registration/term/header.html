@@ -1,0 +1,12 @@
+<tr class="d-none d-md-table-row">
+    <th>Term Code</th>
+    <th>Name</th>
+    <th>Length</th>
+    <th>Start Date</th>
+    <th>End Date</th>
+    <th class="text-md-center">Has Midpoint Break</th>
+    <th class="text-md-center">Supports Master Syllabi</th>
+    {% if perms.editor.change_term %}
+        <th class="m-0 p-0" colspan="2">&nbsp;</th>
+    {% endif %}
+</tr>

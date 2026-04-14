@@ -1,0 +1,16 @@
+{% load editor_extras %}
+<tr class="d-flex d-md-table-row flex-column{% if item.inactive %} text-danger{% endif %}">
+    <td><span class="d-md-none"><strong>Code</strong>: </span>{{ item.prefix }}-{{ item.number }}</td>
+    <td><span class="d-md-none"><strong>Name</strong>: </span>{{ item.name }}</td>
+    {% verify_credit_hour_total item.class_credit_hours item.lab_credit_hours item.total_credit_hours as valid %}
+    <td><span class="d-md-none"><strong>Credit Hour(s) (Class/Lab)</strong>: </span>
+        <div class="d-flex gap-3">
+            {{ item.total_credit_hours }} Total ({{ item.class_credit_hours }} Class Hours / {{ item.lab_credit_hours }} Lab Hours)
+            {% if not valid %}{% include 'core/helpers/alert.html' with alert_css='m-0 p-2' icon='x-square' text='<strong>ERROR</strong>: Credit Hours do <strong>NOT</strong> add up!' text_css='ps-2' type='danger' %}{% endif %}
+        </div>
+    </td>
+    {% if perms.editor.change_course %}
+        {% include 'editor/registration/card/body/options.html' with perm=True %}
+    {% endif %}
+</tr>
+{% if not forloop.last %}<tr class="d-md-none"><td class="p-0"><hr class="border border-2 m-0"></td></tr>{% endif %}

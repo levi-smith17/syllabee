@@ -1,0 +1,47 @@
+{% load core_extras json_loaders %}
+<li class="ps-3"><h5>Administration</h5></li>
+<li><hr></li>
+{% if perms.editor.change_branding and perms.editor.delete_branding %}
+    <li>
+        {% url 'editor:branding:update' 1 as url %}
+        {% include 'editor/helpers/buttons/offcanvas_modal.html' with btn_color='dark w-100' control='offcanvas' full=False icon='house-gear' icon_color='' next=False perm=True text='Branding' text_css='ps-3' title='Edit Branding' %}
+    </li>
+{% endif %}
+{% for model in models %}
+    <li>
+        {% if model.name == 'courseratio' %}
+            {% define 'slash-lg' as icon %}
+        {% elif model.name == 'course' %}
+            {% define 'journal-bookmark' as icon %}
+        {% elif model.name == 'section' %}
+            {% define 'person-workspace' as icon %}
+        {% elif model.name == 'term' %}
+            {% define 'calendar-month' as icon %}
+        {% elif model.name == 'termlength' %}
+            {% define 'calendar-range' as icon %}
+        {% else %}
+            {% define 'x-lg' as icon %}
+        {% endif %}
+        {% define_if '"'|addstr:model_to_autoload|addstr:'" == "'|addstr:model.name|addstr:'"' 'warning' 'light' as icon_color %}
+        {% get_json_content 'admin' '{"model": "'|addstr:model.name|addstr:'"}' as json_content %}
+        {% include 'core/buttons/load_regions.html' with btn_color='dark update-selected w-100' json_stage=False json_profile=False json_toc=False json_title=False json_url=False perms=True post_icon=False text=model.verbose_name_plural|title text_css='ps-3' title=model.verbose_name_plural|title size='1.5rem' %}
+    </li>
+{% endfor %}
+{% if user.is_superuser %}
+    <li><hr></li>
+    <li class="ps-3"><h5>Super Admin</h5></li>
+    <li><hr></li>
+    <li>
+        <a href="https://syllabee.app/phpmyadmin/" class="btn btn-lg btn-dark d-flex align-items-center"
+           target="_blank" title="Database Management">
+            {% include 'core/buttons/content.html' with icon='database' icon_color='' text='Database' text_css='ps-3' size='1.5rem' %}
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'admin:index' %}" class="btn btn-lg btn-dark d-flex align-items-center"
+           target="_blank" title="User/Group Management">
+            {% include 'core/buttons/content.html' with icon='people' icon_color='' text='Users/Groups' text_css='ps-3' size='1.5rem' %}
+        </a>
+    </li>
+{% endif %}
+<li><hr></li>
