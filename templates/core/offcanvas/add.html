@@ -1,0 +1,18 @@
+{% load core_extras %}
+<div class="offcanvas-body text-bg-dark">
+    <form id="offcanvas-form" action="{{ add_url }}" enctype="multipart/form-data" method="post" autocomplete="off"
+          class="editor-form was-validated" data-model="{{ verbose_name }}" data-operation="created"
+          data-target="{{ target }}" data-callback="{{ callback }}" data-content-id="{{ content_id }}">
+        {% csrf_token %}
+        <div class="d-grid gap-2">
+            {% include 'core/offcanvas/field.html' %}
+            {% with template_name=''|add:module|add:'/'|add:model|add:'/form_extras.html' %}
+                {% if template_name|template_exists %}
+                    {% include ''|add:template_name %}
+                {% endif %}
+            {% endwith %}
+            <hr class="my-2 text-bg-dark">
+            {% include 'core/buttons/form/submit.html' with color='warning' icon='plus-lg' perm=True text='Save' title='' %}
+        </div>
+    </form>
+</div>

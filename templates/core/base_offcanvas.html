@@ -1,0 +1,41 @@
+<div class="offcanvas-full-backdrop backdrop d-none-init"></div>
+<div class="offcanvas offcanvas-end offcanvas-full text-bg-dark border-secondary shadow-lg" tabindex="-1"
+     id="offcanvas-full-generic" data-bs-keyboard="false" data-bs-backdrop="false">
+    <div class="offcanvas-header text-bg-dark-header border-bottom border-secondary px-4">
+        <h5 class="offcanvas-full-title fs-2 flex-fill ps-md-2 pe-2 pe-md-0 m-0"></h5>
+        <button type="button" class="btn btn-light rounded-5 p-2 offcanvas-close" data-bs-dismiss="offcanvas"
+                aria-label="Close">
+            <span class="d-flex align-items-center">{% include 'core/helpers/icon.html' with icon='x-lg' size='1.5rem' %}</span>
+        </button>
+    </div>
+    <div class="offcanvas-full-container h-100 overflow-auto">
+        <p>Place offcanvas content here.</p>
+    </div>
+</div>
+<div class="offcanvas-generic-backdrop backdrop d-none-init"></div>
+<div class="offcanvas offcanvas-end text-bg-dark border-secondary shadow-lg" tabindex="-1"
+     id="offcanvas-generic" aria-labelledby="offcanvas-generic-label" data-bs-keyboard="false" data-bs-backdrop="false">
+    <div class="offcanvas-header text-bg-dark-header border-bottom border-secondary px-4">
+        <h5 class="offcanvas-title fs-2 flex-fill ps-md-2 pe-2 pe-md-0"></h5>
+        <button type="button" class="btn btn-light rounded-5 p-2 offcanvas-close" data-bs-dismiss="offcanvas"
+                aria-label="Close">
+            <span class="d-flex align-items-center">{% include 'core/helpers/icon.html' with icon='x-lg' size='1.5rem' %}</span>
+        </button>
+    </div>
+    <div class="offcanvas-container overflow-auto">
+        <p>Place offcanvas content here.</p>
+    </div>
+</div>
+<div class="offcanvas offcanvas-end text-bg-dark border-secondary shadow-lg" tabindex="-1"
+     id="offcanvas-notifications" aria-labelledby="offcanvas-notifications-label" data-bs-keyboard="false">
+    <div class="offcanvas-header text-bg-dark-header border-bottom border-secondary px-4">
+        <h5 class="offcanvas-title fs-2 flex-fill ps-md-2 pe-2 pe-md-0">Recent Notifications</h5>
+        <button type="button" class="btn btn-light rounded-5 p-2 offcanvas-close" data-bs-dismiss="offcanvas"
+                aria-label="Close">
+            <span class="d-flex align-items-center">{% include 'core/helpers/icon.html' with icon='x-lg' size='1.5rem' %}</span>
+        </button>
+    </div>
+    <div id="notifications" class="offcanvas-container overflow-auto d-grid gap-3 p-3">
+        {% include 'core/helpers/alert.html' with alert_css='' icon='info-square' text_css='ps-3' text='No notifications have been triggered since the last full page load.' type='info' %}
+    </div>
+</div>

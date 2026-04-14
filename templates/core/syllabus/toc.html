@@ -1,0 +1,28 @@
+{% load core_extras %}
+<nav class="navbar navbar-dark navbar-expand-lg p-0">
+    <div class="container-fluid p-0 flex-nowrap">
+        <div class="offcanvas offcanvas-end text-bg-dark max-width-lg-80 border-secondary p-lg-3" tabindex="-1"
+             id="offcanvas-toc" aria-labelledby="offcanvas-navbar-label">
+            <div class="offcanvas-header text-bg-dark-header border-bottom border-secondary">
+                <h5 id="offcanvas-title" class="offcanvas-title fs-2 p-3" id="offcanvas-navbar-label">{{ title }}</h5>
+                <button type="button" class="offcanvas-close btn btn-light rounded-5 p-2" data-bs-dismiss="offcanvas"
+                        aria-label="Close">
+                    <span class="d-flex align-items-center">{% include 'core/helpers/icon.html' with icon='x-lg' size='1.5rem' %}</span>
+                </button>
+            </div>
+            <div class="offcanvas-body p-lg-2">
+                <ul class="d-grid gap-1 m-0 ps-0 list-unstyled w-100">
+                    <li id="profile-container-loader">
+                        <div class="text-center py-4">{% include 'core/helpers/loader.html' with color='light' embed=True %}</div>
+                    </li>
+                    <li><ul id="profile-container" class="list-unstyled p-0" data-name="profile"></ul></li>
+                    <li><hr></li>
+                    <li id="toc-container-loader">
+                        <div class="text-center py-4">{% include 'core/helpers/loader.html' with color='light' embed=True %}</div>
+                    </li>
+                    <li><ul id="toc-container" class="list-unstyled p-0" style="display: none" data-name="table of contents"></ul></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>

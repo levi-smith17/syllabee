@@ -1,0 +1,6 @@
+<input type="checkbox" class="btn-check" name="{{ form.DELETE.html_name }}"
+       id="{{ form.DELETE.id_for_label }}" autocomplete="off" data-prefix="{{ prefix }}">
+<label class="btn btn-outline-danger d-flex align-items-center rounded-0 rounded-end"
+       for="{{ form.DELETE.id_for_label }}">
+    {% include 'core/helpers/icon.html' with icon='x-lg' size='1.5rem' %}
+</label>

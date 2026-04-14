@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+{% load static core_extras %}
+{% block title %}{{ app_name }}{% if title %} | {{ title }}{% endif %}{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/layout.scss' %}" media="screen">
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/print.scss' %}" media="print">
+    <link rel="stylesheet" type="text/css" href="{% static 'curriculum/styles.scss' %}">
+{% endblock %}
+
+{% block navbar %}
+    <!-- Navbar Content -->
+    {% include 'core/base_navbar.html' %}
+    <!-- END Navbar Content -->
+{% endblock %}
+
+{% block main %}
+    <div class="app-window p-0">
+        {% include 'core/helpers/loader.html' with color='warning' embed=False %}
+        <div id="main-content">{% include 'core/syllabus/syllabus.html' %}</div>
+    </div>
+{% endblock %}
+
+{% block extras %}
+    <!-- Toast Content -->
+    {% include 'core/helpers/toast.html' with class='' code='' exception='' type='' %}
+    <!-- END Toast Content -->
+
+    <!-- Base Extras -->
+    {% include 'core/base_offcanvas.html' %}
+    {% include 'core/base_modal.html' %}
+    <!-- END Base Extras -->
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'viewer/viewer.js' %}"></script>
+    <script src="{% static 'editor/editor.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}{{ app_name }} | Sign In{% endblock %}
+
+{% block navbar %}
+    {% include 'core/base_navbar.html' with editable=False %}
+{% endblock %}
+
+{% block main %}
+    <div class="app-window background-image p-0 min-height-100vh p-3">
+        <div class="login shadow-lg w-md-50r position-md-absolute top-md-50 start-md-50 translate-md-middle">
+            <div class="card border-secondary">
+                <div class="card-header text-bg-dark-header p-3">
+                    <div class="fs-3">{{ app_name }}</div>
+                    <div class="fs-6">An Interactive Syllabus Platform</div>
+                </div>
+                <form class="form needs-validation text-bg-dark" role="form" method="POST" novalidate>
+                    {% csrf_token %}
+                    {% include 'core/helpers/alert.html' with alert_css='mt-3 mx-3 mb-0' icon='' text='Welcome to <strong>'|add:app_name|add:'</strong>! Please <strong>Sign In</strong> to Continue.' text_css='' type='info' %}
+                    <div class="d-md-flex text-bg-dark">
+                        <div class="card-body max-width-md-30 pe-md-0 pb-0 pb-md-3">
+                            {% include 'core/helpers/alert.html' with alert_css='m-0' icon='' text='This login page should only be used by <strong>instructors</strong>. Students should access '|add:app_name|add:' through their institution&#39;s LMS.' text_css='text-wrap' type='dark' %}
+                        </div>
+                        <div class="card-body d-flex flex-column align-items-start gap-3">
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger m-0 w-100" role="alert">
+                                    <strong>ERROR</strong>: {{ form.non_field_errors.as_text|cut:"* " }}
+                                </div>
+                            {% endif %}
+                            <div class="d-md-flex align-items-start w-100">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control text-bg-dark border-secondary"
+                                           name="username" autofocus autocapitalize="none" placeholder="Username"
+                                           autocomplete="username" maxlength="150" required id="id_username">
+                                    <label for="id_username">Username</label>
+                                    {% if form.username.errors %}
+                                        {% for error in form.username.errors %}
+                                            <div class="invalid-feedback d-block"><strong>{{ error|escape }}</strong></div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="d-md-flex align-items-start w-100">
+                                <div class="form-floating">
+                                    <input type="password" class="form-control text-bg-dark border-secondary"
+                                           name="password" autocomplete="current-password" required id="id_password"
+                                           placeholder="Password">
+                                    <label for="id_password">Password</label>
+                                    {% if form.password.errors %}
+                                        {% for error in form.password.errors %}
+                                            <div class="invalid-feedback d-block"><strong>{{ error|escape }}</strong></div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer d-grid gap-3 d-md-flex justify-content-md-end p-3 text-bg-dark-header">
+                        <a href="{% url 'microsoft_authentication:microsoft_authentication_login' %}" class="btn btn-lg btn-info d-flex align-items-center order-2 order-md-0">
+                            {% include 'core/buttons/content.html' with icon='microsoft' icon_color='' text='Sign in with Microsoft' text_css='fs-5 ps-3' size='1.5rem' %}
+                        </a>
+                        <button type="submit" class="btn btn-lg btn-warning ms-md-auto d-flex align-items-center">
+                            {% include 'core/buttons/content.html' with icon='box-arrow-in-right' icon_color='' text='Sign in' text_css='fs-5 ps-3' size='1.5rem' %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extras %}
+    <!-- Base Extras -->
+    {% include 'core/base_offcanvas.html' %}
+    <!-- END Base Extras -->
+{% endblock %}
+
+{% block js %}
+{% endblock %}

@@ -1,0 +1,6 @@
+{% if icon %}
+    <span class="d-flex align-items-center{% if icon_color %} text-{{ icon_color }}{% endif %}">{% include 'core/helpers/icon.html' %}</span>
+{% endif %}
+{% if text %}
+    <span class="flex-fill text-start {{ text_css }}">{{ text }}</span>
+{% endif %}

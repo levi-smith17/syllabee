@@ -1,0 +1,15 @@
+{% load core_extras %}
+<div class="modal-body text-bg-dark">
+    {% get_alert_icon modal.message_type as icon %}
+    {% include 'core/helpers/alert.html' with alert_css=modal.message_alert_css text=modal.message|safe text_css='ps-3' type=modal.message_type %}
+    {% if object %}<div class="alert alert-info mb-0" role="alert"><strong>{{ object|safe }}</strong></div>{% endif %}
+</div>
+<div class="modal-footer text-bg-dark-header border-secondary gap-3">
+    {% include 'core/buttons/form/dismiss.html' with text='No' %}
+    <form action="{{ modal.url }}" method="post" class="d-flex flex-fill editor-form ms-auto"
+          data-model="{{ verbose_name }}" data-operation="{{ modal.operation }}" data-target="{{ modal.target }}"
+          data-callback="{{ callback }}" data-content-id="{{ content_id }}">
+        {% csrf_token %}
+        {% include 'core/buttons/form/submit.html' with color='danger' icon='x-lg' perm=True text='Yes' title='' %}
+    </form>
+</div>

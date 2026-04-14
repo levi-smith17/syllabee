@@ -1,0 +1,8 @@
+<div class="alert alert-{{ type }} d-flex align-items-center {% if alert_css %}{{ alert_css }}{% endif %}" role="alert">
+    {% if icon %}
+        <span class="d-flex align-items-center">
+        {% include 'core/helpers/icon.html' with size='1.5rem' %}
+    </span>
+    {% endif %}
+    <span class="flex-fill text-start {{ text_css }}">{{ text|safe }}</span>
+</div>

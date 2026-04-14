@@ -1,0 +1,7 @@
+{% load core_extras %}
+{% if instructor %}
+    {% if not office_hours %}{% get_office_hours instructor as office_hours %}{% endif %}
+    {% include 'editor/profile/instructor.html' with print=False show_all=True %}
+{% else %}
+    <div id="profile-search">{% include 'viewer/search/instructors.html' %}</div>
+{% endif %}

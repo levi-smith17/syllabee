@@ -1,0 +1,18 @@
+<div class="input-group flex-nowrap ps-3">
+    <span class="d-flex align-items-center text-light">{% include 'core/helpers/icon.html' with icon='search' size='1.5rem' %}</span>
+    <div class="form-floating flex-fill text-bg-secondary ms-2">
+        <input type="text" class="form-control text-bg-secondary border-0 rounded-0 search"
+               id="{{ module }}-{{ model }}-search-input"
+               placeholder="Search {{ verbose_name_plural|title }}" data-url="{% url search_url %}"
+               data-target="#content-container" value="{% if pattern %}{{ pattern }}{% endif %}">
+        <label for="{{ module }}-{{ model }}-search">
+            Search {{ verbose_name_plural|title }}
+        </label>
+    </div>
+    <button class="search-toggle btn btn-outline-danger border-0 rounded-0 d-flex align-items-center search-clear text-light"
+            type="button" data-target="#content-container"
+            data-url="{% url search_url %}" data-module="{{ module }}" data-model="{{ model }}"
+            title="Clear Search Field and Results">
+        {% include 'core/helpers/icon.html' with icon='x-lg' size='1.5rem' %}
+    </button>
+</div>

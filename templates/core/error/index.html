@@ -1,0 +1,32 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}{{ code }} {{ type }}{% endblock %}
+
+{% block navbar %}
+    {% include 'core/base_navbar.html' with editable=False %}
+{% endblock %}
+
+{% block main %}
+    <div class="app-window background-image p-0">
+        <div class="content d-flex align-items-start align-items-lg-center justify-content-center min-height-100vh p-4">
+            <div class="card shadow-lg border-0">
+                <h2 class="card-header border-0 m-0 pt-4 px-4 text-bg-danger">{{ code }} {{ type }}</h2>
+                <div class="card-body pb-4 px-4 rounded-bottom text-bg-danger">{{ exception }}</div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extras %}
+    <!-- Toast Content -->
+    {% include 'core/helpers/toast.html' with class='' code='' exception='' text='' type='' %}
+    <!-- END Toast Content -->
+
+    <!-- Base Extras -->
+    {% include 'core/base_offcanvas.html' %}
+    {% include 'core/base_modal.html' %}
+    <!-- END Base Extras -->
+{% endblock %}
+
+{% block js %}
+{% endblock %}

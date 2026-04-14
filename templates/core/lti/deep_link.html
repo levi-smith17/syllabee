@@ -1,0 +1,72 @@
+{% extends 'core/base.html' %}
+{% load static core_extras %}
+{% block title %}{{ app_name }}{% if title %} | {{ title }}{% endif %}{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/layout.scss' %}" media="screen">
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/print.scss' %}" media="print">
+{% endblock %}
+
+{% block navbar %}
+    <!-- Navbar Content -->
+    {% include 'core/base_navbar.html' %}
+    <!-- END Navbar Content -->
+{% endblock %}
+
+{% block main %}
+    <div class="app-window p-0">
+        {% include 'core/helpers/loader.html' with color='warning' embed=False %}
+        <div id="main-content">
+            {% load core_extras json_loaders %}
+            <main id="main-grid" class="p-0 text-bg-dark">
+                <header id="syllabus-header" class="syllabus-header">
+                    {% include 'core/syllabus/header.html' %}
+                </header>
+                <article id="syllabus-content" class="syllabus-content position-relative overflow-auto d-grid align-content-start min-height-20r">
+                    <div id="content-container" class="d-grid" data-name="main">
+                        <div class="d-grid align-content-start gap-3 p-3">
+                            <div class="card bg-dark shadow-lg border-0 rounded-0 h2-border-dark">
+                                <h2 class="card-header border-0 rounded-0 pt-5 px-5 text-bg-dark">Link to Section</h2>
+                                <div class="card-body px-5 pb-5 text-bg-dark">
+                                    <form action="{% url 'lti_deep_link' %}" method="post" class="d-flex gap-3 was-validated">
+                                        {% csrf_token %}
+                                        {% for hidden in form.hidden_fields %}
+                                            {{ hidden }}
+                                        {% endfor %}
+                                        {% include 'core/offcanvas/field.html' %}
+                                        {% include 'core/buttons/form/submit.html' with color='warning' icon='link-45deg' perm=True text='Link' title='Link to Section' %}
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </main>
+            <div class="print-warning">
+                <div class="alert alert-dark">
+                    Please use the print button on the Table of Contents (with a syllabus selected) to print a syllabus in
+                    printer-friendly format. Note: printing functionality may not be available until an interactive syllabus
+                    activity is completed.
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extras %}
+    <!-- Toast Content -->
+    {% include 'core/helpers/toast.html' with class='' code='' exception='' type='' %}
+    <!-- END Toast Content -->
+
+    <!-- Base Extras -->
+    {% include 'core/base_offcanvas.html' %}
+    {% include 'core/base_modal.html' %}
+    <!-- END Base Extras -->
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'viewer/viewer.js' %}"></script>
+    {% if user|has_group:'admins' or user|has_group:'instructors' %}
+        <script src="{% static 'editor/editor.js' %}"></script>
+    {% endif %}
+{% endblock %}

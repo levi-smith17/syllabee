@@ -1,0 +1,32 @@
+{% load core_extras json_loaders %}
+<main id="main-grid" class="syllabus p-0 text-bg-dark"
+      {% if json_stage_string %} data-stage="{% get_json_stage json_view json_stage_string %}"{% endif %}
+      {% if json_content_string or json_view == "search" %} data-content="{% get_json_content json_view json_content_string %}"{% endif %}
+      data-profile="{% get_json_profile json_profile_string %}"
+      data-toc="{% get_json_toc json_view json_toc_string %}"
+      data-title="{{ title }}"
+      data-url="{{ reload_url }}">
+    <header id="syllabus-header" class="syllabus-header">
+        {% include 'core/syllabus/header.html' %}
+    </header>
+    <aside class="syllabus-toc shadow-lg text-bg-dark">
+        {% include 'core/syllabus/toc.html' %}
+    </aside>
+    <article id="syllabus-content" class="syllabus-content position-relative overflow-auto d-grid align-content-start min-height-20r">
+        <div id="load-progress" class="progress border-top border-bottom border-dark bg-dark rounded-0 position-sticky top-0 z-25"
+             role="progressbar" aria-label="Loading Progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-{% if user|has_group:'admins' or user|has_group:'instructors' %}info{% else %}warning{% endif %}" style="width: 0%"></div>
+        </div>
+        <div id="content-container-loader">
+            <div class="center-x-y">{% include 'core/helpers/loader.html' with color='light' embed=True %}</div>
+        </div>
+        <div id="content-container" class="d-grid" data-name="main"></div>
+    </article>
+</main>
+<div class="print-warning">
+    <div class="alert alert-dark">
+        Please use the print button on the Table of Contents (with a syllabus selected) to print a syllabus in
+        printer-friendly format. Note: printing functionality may not be available until an interactive syllabus
+        activity is completed.
+    </div>
+</div>

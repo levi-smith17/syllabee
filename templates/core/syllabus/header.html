@@ -1,0 +1,15 @@
+{% load core_extras %}
+<div class="card border-0 rounded-0 h-100">
+    <div class="card-header row p-4 p-lg-5 rounded-0 text-bg-{% if user|has_group:'instructors' %}warning{% elif user|has_group:'admins' %}info{% else %}dark-header{% endif %} m-0 max-width-100vw-4r h-100">
+        <div class="col-10 col-lg-12 p-0 ps-2 ps-lg-0">
+            <h1 id="syllabus-title">{% if title %}{{ title }}{% else %}{{ app_name }}{% endif %}</h1>
+            <h2 class="m-0 text-truncate">{{ branding.institution }}</h2>
+        </div>
+        <div class="col-2 col-lg-0 p-0 ps-2 p-lg-0">
+            <button class="d-lg-none btn btn-dark btn-darker d-flex align-items-center ms-auto"
+                    type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-toc" aria-controls="offcanvas-toc">
+                {% include 'core/helpers/icon.html' with icon='list' size='2rem' %}
+            </button>
+        </div>
+    </div>
+</div>

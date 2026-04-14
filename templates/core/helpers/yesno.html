@@ -1,0 +1,5 @@
+{% if yes %}
+    <span class="text-success">{% include 'core/helpers/icon.html' with icon='check-circle' size='1.5rem' %}</span>
+{% else %}
+    <span class="text-danger">{% include 'core/helpers/icon.html' with icon='ban' size='1.5rem' %}</span>
+{% endif %}

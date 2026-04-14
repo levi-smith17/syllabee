@@ -1,0 +1,67 @@
+{% load i18n static django_bootstrap5 core_extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" href="{% static 'core/img/favicon.ico' %}" type="image/x-icon" />
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.2/dist/quill.snow.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+    {% load compress %}
+    {% bootstrap_css %}
+    {% compress css %}
+        <style>
+            * { font-size: {% if font_size %}{{ font_size }}{% else %}14{% endif %}px; }
+            {% if branding.background_image %}
+                .background-image {
+                    background-image: url('{{ MEDIA_URL }}{{ branding.background_image }}');
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: cover;
+                }
+            {% endif %}
+        </style>
+        <link rel="stylesheet" type="text/css" href="{% static 'core/css/styles.scss' %}" media="screen">
+        {% block css %}{% endblock %}
+    {% endcompress %}
+    {% block responsive %}
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    {% endblock %}
+</head>
+{% load i18n %}
+
+<body class="text-bg-dark">
+
+<!-- Main Container -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Navbar -->
+        {% block navbar %}{% endblock %}
+        <!-- END Navbar -->
+
+        <!-- Main Content -->
+        {% block main %}{% endblock %}
+        <!-- END Main Content -->
+
+    </div>
+</div>
+<!-- END Main Container -->
+
+{% block extras %}{% endblock %}
+
+{% bootstrap_javascript %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.2/dist/quill.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+{% compress js %}
+    <script>let app_name = "{{ app_name }}";</script>
+    <script src="{% static 'core/js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'core/js/core.js' %}"></script>
+    <script src="{% static 'core/js/loader.js' %}"></script>
+    {% block js %}{% endblock %}
+{% endcompress %}
+</body>
+</html>

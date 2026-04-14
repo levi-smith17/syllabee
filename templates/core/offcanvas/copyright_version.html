@@ -1,0 +1,17 @@
+{% load core_extras %}
+<div class="offcanvas-body text-bg-dark d-grid gap-3">
+    {% include 'core/helpers/alert.html' with alert_css='m-0' icon='info-square' text=copyright_notice text_css='ps-3' type='info' %}
+    {{ gpl_license|safe }}
+    <hr class="m-0">
+    {% include 'core/helpers/alert.html' with alert_css='m-0' icon='info-square' text='You are currently using <strong>'|addstr:version|addstr:'</strong>' text_css='ps-3' type='secondary' %}
+    {% include 'core/helpers/alert.html' with alert_css='m-0' icon='info-square' text=version_info text_css='ps-3' type='info' %}
+    <a href="https://github.com/lsmith2-edison/syllabee" target="_blank" class="btn btn-secondary btn-lg flex-fill d-flex align-items-center justify-content-center">
+        <span class="d-flex align-items-center">{% include 'core/helpers/icon.html' with icon='github' size='1.5rem' %}</span>
+        <span class="text-start fs-5 ps-3">View on GitHub</span>
+    </a>
+    <a href="https://github.com/lsmith2-edison/syllabee/issues/new" target="_blank" class="btn btn-secondary btn-lg flex-fill d-flex align-items-center justify-content-center">
+        <span class="d-flex align-items-center">{% include 'core/helpers/icon.html' with icon='bug' size='1.5rem' %}</span>
+        <span class="text-start fs-5 ps-3">Report an Issue</span>
+    </a>
+    {{ changelog|safe }}
+</div>

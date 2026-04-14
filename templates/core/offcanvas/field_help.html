@@ -1,0 +1,3 @@
+<div class="input-group-text text-bg-secondary border-secondary d-block rounded-0 rounded-top text-start text-wrap">
+    {% if field.required %}<span class="text-danger pe-1">{% include 'core/helpers/icon.html' with icon='asterisk' size='1rem' %}</span>{% endif %} {{ field.help_text }}
+</div>

@@ -1,0 +1,4 @@
+<button type="submit" class="btn btn-{{ color }} btn-lg flex-fill d-flex align-items-center"
+        {% if not perm %} disabled{% endif %}>
+    {% include 'core/buttons/content.html' with icon_color='' text_css='fs-5 ps-3' size='1.5rem' %}
+</button>

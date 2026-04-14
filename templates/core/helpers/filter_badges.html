@@ -1,0 +1,14 @@
+{% load core_extras %}
+<li class="d-grid gap-1 mb-2">
+    {% for key, value in filters.items %}
+        <span class="badge rounded-pill text-bg-secondary ps-3 d-inline-flex flex-nowrap align-items-center">
+            {{ key|filter_key }}: {{ key|filter_value:value }}
+            {% with filter_clear_url=''|add:module|add:':registration:'|add:model|add:':filter_clear' %}
+                <button type="button" class="filter-clear btn btn-sm btn-secondary p-0 d-flex align-items-center ms-auto"
+                        data-target="#content-container" data-url="{% url filter_clear_url key %}">
+                {% include 'core/helpers/icon.html' with icon='x' size='1.5rem' %}
+            </button>
+            {% endwith %}
+        </span>
+    {% endfor %}
+</li>

@@ -1,0 +1,25 @@
+{% load core_extras %}
+<div class="d-flex rounded-bottom m-0">
+    <div class="form-floating flex-fill">
+        {% replace widget.name '_datalist' '' as widget_name %}
+        <input type="text" class="form-control rounded-0 rounded-bottom{% if not '_datalist' in widget.name %}-start{% endif %} datalist text-bg-dark"
+               id="id_{{ widget.name }}" name="{{ widget.name }}" placeholder="{{ widget_name|title }}"
+               value="{% if widget.value %}{{ widget.value }}{% endif %}" list="datalist_{{ widget.name }}"
+                {% if widget.attrs.required %} required{% endif %}{% if widget.attrs.disabled %} disabled{% endif %}>
+        <label class="form-label" for="id_{{ widget.name }}">{{ widget_name|title }}</label>
+        <datalist id="datalist_{{ widget.name }}">
+            {% if choices %}
+                {% for choice in choices %}
+                    <option value="{{ choice }}"></option>
+                {% endfor %}
+            {% endif %}
+        </datalist>
+    </div>
+    {% if not '_datalist' in widget.name %}
+        <button type="button" class="btn btn-outline-danger border-secondary border-start-0 rounded-0 rounded-bottom-end d-flex align-items-center"
+                title="Clear Field" onclick="$('#id_{{ widget.name }}').val('');"
+                {% if widget.attrs.disabled %} disabled{% endif %}>
+            {% include 'core/helpers/icon.html' with icon='x-lg' size='1.5rem' %}
+        </button>
+    {% endif %}
+</div>

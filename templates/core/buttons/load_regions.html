@@ -1,0 +1,13 @@
+<button type="button" class="load-regions btn btn-lg btn-{{ btn_color }} d-flex align-items-center"
+        title="{{ title }}"{% if not perms %} disabled{% endif %}
+        {% if json_stage %} data-stage="{{ json_stage }}"{% endif %}
+        {% if json_content %} data-content="{{ json_content }}"{% endif %}
+        {% if json_profile %} data-profile="{{ json_profile }}"{% endif %}
+        {% if json_toc %} data-toc="{{ json_toc }}"{% endif %}
+        {% if json_title %} data-title="{{ json_title }}"{% endif %}
+        {% if json_url %} data-url="{{ json_url }}"{% endif %}>
+    {% include 'core/buttons/content.html' %}
+    {% if post_icon %}
+        <span class="d-flex align-items-center ms-3">{% include 'core/helpers/icon.html' with icon=post_icon size='1.5rem' %}</span>
+    {% endif %}
+</button>

@@ -1,0 +1,4 @@
+<button type="button" class="button-load btn btn-lg btn-{{ btn_color }} d-flex align-items-center"
+        title="{{ title }}" data-target="{{ target }}" data-url="{{ url }}"{% if not perm %} disabled{% endif %}>
+    {% include 'core/buttons/content.html' with icon_color='' text='' text_css='' size='1.5rem' %}
+</button>

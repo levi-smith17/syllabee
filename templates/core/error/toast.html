@@ -1,0 +1,8 @@
+<div class="toast-header border-0 {{ class }}">
+    <strong class="toast-header-text me-auto">{{ code }} {{ type }}</strong>
+    <button type="button" class="btn btn-light rounded-5 p-2" data-bs-dismiss="toast"
+            aria-label="Close">
+        <span class="d-flex align-items-center">{% include 'core/helpers/icon.html' with icon='x-lg' size='1.5rem' %}</span>
+    </button>
+</div>
+<div class="toast-body {{ class }} rounded-bottom">{% if exception %} {{ exception|safe }}{% endif %}</div>

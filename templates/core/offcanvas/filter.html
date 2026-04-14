@@ -1,0 +1,45 @@
+{% load core_extras %}
+<div class="offcanvas-body text-bg-dark">
+    <form action="{{ filter_url }}" method="post" class="filter-form offcanvas-form was-validated"
+          data-target="{{ target }}" data-model="{{ verbose_name_plural|title }}">
+        {% csrf_token %}
+        <div class="filter-datalist d-grid gap-2 text-bg-dark">
+            {% include 'core/helpers/alert.html' with alert_css='m-0' icon='info-square' text='<strong>NOTE</strong>: only valid values typed in each input box will be added to the <strong>Selected Filters</strong> below. Alternatively, clicking in each box provides a pick list of valid values.' text_css='ps-3' type='info' %}
+            <hr class="my-2 text-bg-dark">
+            {% for field in form %}
+                <div class="input-group d-grid">
+                    {% if field.help_text %}
+                        <div class="input-group-text text-bg-secondary border-secondary d-block rounded-0 rounded-top text-start text-wrap">
+                            {% if field.field.required %}<span class="text-danger pe-1">{% include 'core/helpers/icon.html' with icon='asterisk' size='1rem' %}</span>{% endif %} {{ field.help_text }}
+                        </div>
+                    {% endif %}
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <hr class="my-2 text-bg-dark">
+            <div class="border border-warning rounded">
+                <h6 class="text-bg-warning m-0 p-3 rounded-top">Selected Filters</h6>
+                <div id="filters-selected" class="d-grid text-bg-dark gap-2 p-2 rounded-bottom">
+                    <span id="no-filters" class="badge rounded-pill text-bg-danger ps-3 align-items-center justify-content-center">
+                        <strong>NONE</strong>
+                    </span>
+                </div>
+            </div>
+            {% if filters %}
+                <hr class="my-2 text-bg-dark">
+                <div class="border border-secondary rounded">
+                    <h6 class="text-bg-secondary m-0 p-3 rounded-top">Previously Selected Filters</h6>
+                    <div class="d-grid text-bg-dark gap-2 p-2 rounded-bottom">
+                        {% for key, value in filters.items %}
+                            <span class="badge rounded-pill text-bg-dark-header p-2 align-items-center border border-secondary">
+                                {{ key|filter_key }}: {{ key|filter_value:value }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+            <hr class="my-2 text-bg-dark">
+            {% include 'core/buttons/form/submit.html' with color='warning' icon='filter' perm=False text='Filter' title='' %}
+        </div>
+    </form>
+</div>
